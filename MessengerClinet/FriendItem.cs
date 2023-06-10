@@ -13,6 +13,7 @@ namespace MessengerClinet
         
             this.nickname = nickname;
             this.account = account;
+            this.rtboxReceive = new RichTextBox();
 
     }    
         public string nickname { get; set; }

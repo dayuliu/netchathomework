@@ -283,13 +283,14 @@ namespace MessengerServer
                                     address.CopyTo(sendBuffer, 0);
                                     buffer.CopyTo(sendBuffer, address.Length);
                                     socket_send.Send(sendBuffer, address.Length + len, SocketFlags.None);
+
                                 }
                             }
                             //str_to_client = "context error!";
                             break;
                         }
                 }
-                if (str_to_client != null) // 将str_to_client发送给客户端
+                if (str_to_client != null && str_to_client!= "") // 将str_to_client发送给客户端
                 {
                     byte[] buffer_tmp = Encoding.Default.GetBytes(str_to_client);
                     socket.Send(buffer_tmp, 0, buffer_tmp.Length, SocketFlags.None);

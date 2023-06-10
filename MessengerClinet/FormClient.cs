@@ -34,6 +34,7 @@ namespace MessengerClinet
 
             FriendItem pub_zone = new FriendItem("公共聊天室", "");
             listFriend.Items.Add(pub_zone);
+            listFriend.SelectedIndex = 0;
             current_friend = pub_zone;
 
 
@@ -85,19 +86,24 @@ namespace MessengerClinet
                 Invoke(() =>
                 {
                     string[] tt = context.Split("|");
-                    if (tt[0] == "10")
+                    string action = tt[0];
+                    switch (action)
                     {
-                        Client_AddConnectionReceive(this, new ReceiveEventArgs() { Text = tt[1] });
+                        case "10":
+                            Client_AddConnectionReceive(this, new ReceiveEventArgs() { Text = tt[1] });
+                            break;
+                        case "14":
+                            int i = 1;
+                            for (; i < tt.Length; i++)
+                            {
+                                Client_DataFriReceive(this, new ReceiveEventArgs() { Text = tt[i] });
+                            }
+                            break;
+                        case "08":
+                            MessageBox.Show(context);
+                            break;
                     }
-                    else if (tt[0] == "14")
-                    {
-                        int i = 1;
-                        for (; i < tt.Length; i++)
-                        {
-                            Client_DataFriReceive(this, new ReceiveEventArgs() { Text = tt[i] });
-                        }
-
-                    }
+                   
                 });
                 // 处理消息
             }
@@ -117,7 +123,7 @@ namespace MessengerClinet
                 rtboxReceive.AppendText(args[1] + args[2]);
             });
         }
-        
+
         /**
          * 私聊
          */
@@ -290,12 +296,13 @@ namespace MessengerClinet
             tmp.ScrollToCaret();
 
             rtboxReceive = tmp;
+            rtboxReceive.Show();
             Object friend = listFriend.SelectedItem;
-            if(friend != null && !"".Equals(friend.ToString()))
+            if (this.current_friend.account != "")
             {
-                string friendAccount = friend.ToString();
-                message = "05|" + clientAccount + "|" + friendAccount + "|" + message;
-            } else
+                message = "05|" + clientAccount + "|" + this.current_friend.account + "|" + message;
+            }
+            else
             {
                 message = "07|" + message;
             }
@@ -332,8 +339,6 @@ namespace MessengerClinet
         private void listFriend_SelectedValueChanged(object sender, EventArgs e)
         {
 
-
-<<<<<<< HEAD
             FriendItem fi = (FriendItem)listFriend.SelectedItem;
 
             this.current_friend = fi;
@@ -347,7 +352,5 @@ namespace MessengerClinet
 
             MessageBox.Show(curItem);
         }
-=======
->>>>>>> 43830e1cb1098c6437167c0129f5256fed4f0ca4
     }
 }
