@@ -2,6 +2,7 @@ using Microsoft.VisualBasic.ApplicationServices;
 using SocketCommon;
 using System;
 using System.Net.Sockets;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
@@ -16,6 +17,8 @@ namespace MessengerClinet
         byte[] buffer = new byte[5 * 1024 * 1024];  //创建接受消息缓存数组并约定缓存长度解决粘包问题
         Socket socketClient;
 
+        FriendItem current_friend;
+
         private Dictionary<string, RichTextBox> userRepo = new Dictionary<string, RichTextBox>(); // 用户聊天记录
 
 
@@ -27,6 +30,13 @@ namespace MessengerClinet
 
 
             InitializeComponent();
+
+            FriendItem pub_zone = new FriendItem("公共聊天室", "");
+            listFriend.Items.Add(pub_zone);
+            current_friend = pub_zone;
+
+
+
             socketClient = socket;
             socket.BeginReceive(buffer, 0, buffer.Length, SocketFlags.None, new AsyncCallback(ReceiveCallback), socketClient);// 异步接受消息
 
@@ -237,15 +247,19 @@ namespace MessengerClinet
             // 获取当前的对象
 
             // 将自己发的字符串显示在接收区
-            rtboxReceive.AppendText(tboxSend.Text + "\r\n");
+
+            RichTextBox tmp = this.current_friend.rtboxReceive;
+            tmp.AppendText(tboxSend.Text + "\r\n");
 
             // 设定本人发送内容回显格式
-            int index = rtboxReceive.Text.LastIndexOf(tboxSend.Text);
-            rtboxReceive.Select(index, tboxSend.Text.Length);
-            rtboxReceive.SelectionColor = Color.YellowGreen;
-            rtboxReceive.SelectionAlignment = HorizontalAlignment.Right;
-            rtboxReceive.Select(rtboxReceive.Text.Length, 0);
-            rtboxReceive.ScrollToCaret();
+            int index = tmp.Text.LastIndexOf(tboxSend.Text);
+            tmp.Select(index, tboxSend.Text.Length);
+            tmp.SelectionColor = Color.YellowGreen;
+            tmp.SelectionAlignment = HorizontalAlignment.Right;
+            tmp.Select(tmp.Text.Length, 0);
+            tmp.ScrollToCaret();
+
+            rtboxReceive = tmp;
 
             // 发送字符串到服务器
             client.Send(tboxSend.Text);
@@ -279,16 +293,17 @@ namespace MessengerClinet
         private void listFriend_SelectedValueChanged(object sender, EventArgs e)
         {
 
+
+            FriendItem fi = (FriendItem)listFriend.SelectedItem;
+
+            this.current_friend = fi;
+
             // Get the currently selected item in the ListBox.
             string curItem = listFriend.SelectedItem.ToString();
 
             // Find the string in ListBox2.
             int index = listFriend.FindString(curItem);
             // If the item was not found in ListBox 2 display a message box, otherwise select it in ListBox2.
-            if (index == -1)
-                MessageBox.Show("Item is not available in ListBox2");
-            else
-                listFriend.SetSelected(index, true);
 
             MessageBox.Show(curItem);
         }
