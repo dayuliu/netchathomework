@@ -32,7 +32,6 @@ namespace ChatClient
                     ((Socket)ia.AsyncState).EndConnect(ia);
                     socketClient = ia.AsyncState as Socket;
 
-
                     label_connected.Text = "服务器已连接";
                     socketClient.BeginReceive(buffer, 0, buffer.Length, SocketFlags.None, new AsyncCallback(ReceiveCallback), socketClient);// 异步接受消息
                 });
@@ -56,7 +55,6 @@ namespace ChatClient
                 int bytesRead = socketClient.EndReceive(ia);  //接受消息成功并返回消息长度 
                 string context = Encoding.Default.GetString(buffer, 0, bytesRead);  //缓存解码为字符串
                 socketClient.BeginReceive(buffer, 0, buffer.Length, SocketFlags.None, new AsyncCallback(ReceiveCallback), socketClient);  //异步接受消息
-                MessageBox.Show(context);
 
                 Invoke(() =>
                 {
@@ -72,7 +70,7 @@ namespace ChatClient
 
                         case "04": // 登录
                             {
-                                 on_login_resp(args);
+                                 on_login_resp(args, ia);
                                 break;
                             }
 
@@ -107,7 +105,7 @@ namespace ChatClient
 
         }
 
-        private void on_login_resp(string[] args)
+        private void on_login_resp(string[] args, IAsyncResult ia)
         {
 
             if (args[1] == "1")
@@ -133,6 +131,7 @@ namespace ChatClient
             MessageBox.Show("登录成功");
 
             this.Hide();
+            socketClient.EndReceive(ia);
             Form formClient = new FormClient(socketClient);
             formClient.Show();
 

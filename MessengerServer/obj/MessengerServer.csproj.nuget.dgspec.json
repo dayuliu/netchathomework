@@ -1,38 +1,35 @@
 {
   "format": 1,
   "restore": {
-    "D:\\liugangzuoye\\code\\netchathomework\\MessengerServer\\MessengerServer.csproj": {}
+    "\\\\Mac\\Home\\Workspace\\BUAA\\课程\\一级工程实践\\netchathomework\\MessengerServer\\MessengerServer.csproj": {}
   },
   "projects": {
-    "D:\\liugangzuoye\\code\\netchathomework\\MessengerServer\\MessengerServer.csproj": {
+    "\\\\Mac\\Home\\Workspace\\BUAA\\课程\\一级工程实践\\netchathomework\\MessengerServer\\MessengerServer.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\liugangzuoye\\code\\netchathomework\\MessengerServer\\MessengerServer.csproj",
+        "projectUniqueName": "\\\\Mac\\Home\\Workspace\\BUAA\\课程\\一级工程实践\\netchathomework\\MessengerServer\\MessengerServer.csproj",
         "projectName": "MessengerServer",
-        "projectPath": "D:\\liugangzuoye\\code\\netchathomework\\MessengerServer\\MessengerServer.csproj",
-        "packagesPath": "C:\\Users\\buaas\\.nuget\\packages\\",
-        "outputPath": "D:\\liugangzuoye\\code\\netchathomework\\MessengerServer\\obj\\",
+        "projectPath": "\\\\Mac\\Home\\Workspace\\BUAA\\课程\\一级工程实践\\netchathomework\\MessengerServer\\MessengerServer.csproj",
+        "packagesPath": "C:\\Users\\jabian\\.nuget\\packages\\",
+        "outputPath": "\\\\Mac\\Home\\Workspace\\BUAA\\课程\\一级工程实践\\netchathomework\\MessengerServer\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\buaas\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Users\\jabian\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net6.0-windows"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {}
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net6.0-windows7.0": {
             "targetAlias": "net6.0-windows",
             "projectReferences": {
-              "D:\\liugangzuoye\\code\\netchathomework\\SocketCommon\\SocketCommon.csproj": {
-                "projectPath": "D:\\liugangzuoye\\code\\netchathomework\\SocketCommon\\SocketCommon.csproj"
+              "\\\\Mac\\Home\\Workspace\\BUAA\\课程\\一级工程实践\\netchathomework\\SocketCommon\\SocketCommon.csproj": {
+                "projectPath": "\\\\Mac\\Home\\Workspace\\BUAA\\课程\\一级工程实践\\netchathomework\\SocketCommon\\SocketCommon.csproj"
               }
             }
           }
@@ -65,32 +62,29 @@
               "privateAssets": "none"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.302\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.201\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "D:\\liugangzuoye\\code\\netchathomework\\SocketCommon\\SocketCommon.csproj": {
+    "\\\\Mac\\Home\\Workspace\\BUAA\\课程\\一级工程实践\\netchathomework\\SocketCommon\\SocketCommon.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\liugangzuoye\\code\\netchathomework\\SocketCommon\\SocketCommon.csproj",
+        "projectUniqueName": "\\\\Mac\\Home\\Workspace\\BUAA\\课程\\一级工程实践\\netchathomework\\SocketCommon\\SocketCommon.csproj",
         "projectName": "SocketCommon",
-        "projectPath": "D:\\liugangzuoye\\code\\netchathomework\\SocketCommon\\SocketCommon.csproj",
-        "packagesPath": "C:\\Users\\buaas\\.nuget\\packages\\",
-        "outputPath": "D:\\liugangzuoye\\code\\netchathomework\\SocketCommon\\obj\\",
+        "projectPath": "\\\\Mac\\Home\\Workspace\\BUAA\\课程\\一级工程实践\\netchathomework\\SocketCommon\\SocketCommon.csproj",
+        "packagesPath": "C:\\Users\\jabian\\.nuget\\packages\\",
+        "outputPath": "\\\\Mac\\Home\\Workspace\\BUAA\\课程\\一级工程实践\\netchathomework\\SocketCommon\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\buaas\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Users\\jabian\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net6.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {}
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net6.0": {
@@ -123,7 +117,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.302\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.201\\RuntimeIdentifierGraph.json"
         }
       }
     }

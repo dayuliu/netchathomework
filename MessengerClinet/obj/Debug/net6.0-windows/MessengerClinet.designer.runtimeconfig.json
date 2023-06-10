@@ -12,7 +12,7 @@
       }
     ],
     "additionalProbingPaths": [
-      "C:\\Users\\buaas\\.dotnet\\store\\|arch|\\|tfm|",
+      "C:\\Users\\jabian\\.dotnet\\store\\|arch|\\|tfm|",
       "C:\\Users\\jabian\\.nuget\\packages"
     ],
     "configProperties": {

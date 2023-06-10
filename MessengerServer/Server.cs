@@ -358,10 +358,11 @@ namespace MessengerServer
             if (currentUserId == null)
                 return "10|00";
             var currentFriends = friends[currentUserId];
-            if (!currentFriends.Contains(args[1]))
+            if (currentFriends.Contains(args[1]))
             {
-                currentFriends.Add(args[1]);
+                return "10|02";
             }
+            currentFriends.Add(args[1]);
             friends[currentUserId] = currentFriends;
 
             // notify user

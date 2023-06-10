@@ -1,7 +1,9 @@
 using Microsoft.VisualBasic.ApplicationServices;
 using SocketCommon;
+using System;
 using System.Net.Sockets;
 using System.Text;
+using System.Threading;
 
 namespace MessengerClinet
 {
@@ -9,7 +11,9 @@ namespace MessengerClinet
     {
         private const int SERVER_PORT = 20255;          // 服务器端口号
         private Client client;                          // 客户端实例
-
+        private const int RECEIVE_BUFF_SIZE = 1024;     // 定义接收缓冲区大小
+        byte[] buffer = new byte[5 * 1024 * 1024];  //创建接受消息缓存数组并约定缓存长度解决粘包问题
+        Socket socketClient;
 
         private Dictionary<string, RichTextBox> userRepo = new Dictionary<string, RichTextBox>(); // 用户聊天记录
 
@@ -22,6 +26,8 @@ namespace MessengerClinet
 
 
             InitializeComponent();
+            socketClient = socket;
+            socket.BeginReceive(buffer, 0, buffer.Length, SocketFlags.None, new AsyncCallback(ReceiveCallback), socketClient);// 异步接受消息
 
             // 初始化客户端
             client = new Client(socket);
@@ -32,9 +38,6 @@ namespace MessengerClinet
 
             client.AddConnectionReceive += Client_AddConnectionReceive;
 
-            // 注册数据接收事件
-            client.DataReceive += Client_DataReceive;
-
             // 注册好友列表事件
             client.DataFriendReceive += Client_DataFriReceive;
 
@@ -42,6 +45,51 @@ namespace MessengerClinet
              client.DataOnlineReceive += Client_DataOnlineReceive;*/
 
 
+        }
+
+        private void ReceiveCallback(IAsyncResult ia)
+        {
+            socketClient = ia.AsyncState as Socket;
+            if (socketClient == null)
+            {
+                return;
+            }
+            try
+            {
+
+                int bytesRead = socketClient.EndReceive(ia);  //接受消息成功并返回消息长度 
+                string context = Encoding.Default.GetString(buffer, 0, bytesRead);  //缓存解码为字符串
+                socketClient.BeginReceive(buffer, 0, buffer.Length, SocketFlags.None, new AsyncCallback(ReceiveCallback), socketClient);  //异步接受消息
+                MessageBox.Show(context);
+
+                Invoke(() =>
+                {
+                    string[] tt = context.Split("|");
+                    if (tt[0] == "10")
+                    {
+                        Client_AddConnectionReceive(this, new ReceiveEventArgs() { Text = tt[1] });
+                    }
+                    else if (tt[0] == "14")
+                    {
+                        int i = 1;
+                        for (; i < tt.Length; i++)
+                        {
+                            Client_DataFriReceive(this, new ReceiveEventArgs() { Text = tt[i] });
+                        }
+
+                    }
+                    /* else if (tt[0] == "15") {
+                         DataOnlineReceive(this, new ReceiveEventArgs() { Text = TextFormat });
+
+                     }*/
+
+                });
+                // 处理消息
+            }
+            catch (Exception ex)  //异常捕获
+            {
+                MessageBox.Show(ex.ToString());
+            }
         }
 
         /// <summary>
@@ -73,20 +121,6 @@ namespace MessengerClinet
             }
         }
 
-        /// <summary>
-        /// 事件——数据接收事件
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void Client_DataReceive(object? sender, SocketCommon.ReceiveEventArgs e)
-        {
-            // 显示接收到的数据
-            Invoke(() =>
-            {
-                rtboxReceive.AppendText(e.Text + "\r\n");
-            });
-        }
-
         private void Client_AddConnectionReceive(object? sender, SocketCommon.ReceiveEventArgs e)
         {
             Invoke(() =>
@@ -99,6 +133,9 @@ namespace MessengerClinet
                     case "01":
                         MessageBox.Show("添加成功");
                         // TODO: shengqing, 刷新列表 or Server Push
+                        break;
+                    case "02":
+                        MessageBox.Show("已经添加过");
                         break;
                     default:
                         MessageBox.Show("未知错误");
@@ -214,25 +251,6 @@ namespace MessengerClinet
 
             // 清空发送区
             tboxSend.Clear();
-        }
-
-        /// <summary>
-        /// 事件——点击连接服务器按钮
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void btnConnect_Click(object sender, EventArgs e)
-        {
-            // 设置控件状态
-            btnConnect.Enabled = false;
-            tboxServerIP.ReadOnly = true;
-
-            // 设置状态栏
-            tsslStatus.Text = "正在连接服务器...";
-            tspbProgress.Visible = true;
-
-            // 连接服务器
-            client.Connect(tboxServerIP.Text, SERVER_PORT);
         }
 
         /// <summary>

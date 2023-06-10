@@ -22,3 +22,15 @@ D:\liugangzuoye\code\netchathomework\SocketCommon\obj\Debug\net6.0\SocketCommon.
 D:\liugangzuoye\code\netchathomework\SocketCommon\obj\Debug\net6.0\refint\SocketCommon.dll
 D:\liugangzuoye\code\netchathomework\SocketCommon\obj\Debug\net6.0\SocketCommon.pdb
 D:\liugangzuoye\code\netchathomework\SocketCommon\obj\Debug\net6.0\ref\SocketCommon.dll
+\\Mac\Home\Workspace\BUAA\课程\一级工程实践\netchathomework\SocketCommon\bin\Debug\net6.0\SocketCommon.deps.json
+\\Mac\Home\Workspace\BUAA\课程\一级工程实践\netchathomework\SocketCommon\bin\Debug\net6.0\SocketCommon.dll
+\\Mac\Home\Workspace\BUAA\课程\一级工程实践\netchathomework\SocketCommon\bin\Debug\net6.0\SocketCommon.pdb
+\\Mac\Home\Workspace\BUAA\课程\一级工程实践\netchathomework\SocketCommon\obj\Debug\net6.0\SocketCommon.csproj.AssemblyReference.cache
+\\Mac\Home\Workspace\BUAA\课程\一级工程实践\netchathomework\SocketCommon\obj\Debug\net6.0\SocketCommon.GeneratedMSBuildEditorConfig.editorconfig
+\\Mac\Home\Workspace\BUAA\课程\一级工程实践\netchathomework\SocketCommon\obj\Debug\net6.0\SocketCommon.AssemblyInfoInputs.cache
+\\Mac\Home\Workspace\BUAA\课程\一级工程实践\netchathomework\SocketCommon\obj\Debug\net6.0\SocketCommon.AssemblyInfo.cs
+\\Mac\Home\Workspace\BUAA\课程\一级工程实践\netchathomework\SocketCommon\obj\Debug\net6.0\SocketCommon.csproj.CoreCompileInputs.cache
+\\Mac\Home\Workspace\BUAA\课程\一级工程实践\netchathomework\SocketCommon\obj\Debug\net6.0\SocketCommon.dll
+\\Mac\Home\Workspace\BUAA\课程\一级工程实践\netchathomework\SocketCommon\obj\Debug\net6.0\refint\SocketCommon.dll
+\\Mac\Home\Workspace\BUAA\课程\一级工程实践\netchathomework\SocketCommon\obj\Debug\net6.0\SocketCommon.pdb
+\\Mac\Home\Workspace\BUAA\课程\一级工程实践\netchathomework\SocketCommon\obj\Debug\net6.0\ref\SocketCommon.dll

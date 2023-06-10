@@ -59,7 +59,6 @@
             label4.Size = new Size(39, 20);
             label4.TabIndex = 3;
             label4.Text = "账号";
-            label4.Click += label4_Click;
             // 
             // button_reg
             // 
