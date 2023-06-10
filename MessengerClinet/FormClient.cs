@@ -4,6 +4,7 @@ using System;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
+using System.Windows.Forms;
 
 namespace MessengerClinet
 {
@@ -126,7 +127,8 @@ namespace MessengerClinet
             Invoke(() =>
             {
                 var result = e.Text;
-                switch (result) {
+                switch (result)
+                {
                     case "00":
                         MessageBox.Show("用户不存在，请重试");
                         break;
@@ -270,11 +272,25 @@ namespace MessengerClinet
         private void btnAddFriend_Click(object sender, EventArgs e)
         {
             string find_name = tboxFriName.Text;
-            this.client.Send("09|"+ find_name);
+            this.client.Send("09|" + find_name);
 
         }
 
+        private void listFriend_SelectedValueChanged(object sender, EventArgs e)
+        {
 
-  
+            // Get the currently selected item in the ListBox.
+            string curItem = listFriend.SelectedItem.ToString();
+
+            // Find the string in ListBox2.
+            int index = listFriend.FindString(curItem);
+            // If the item was not found in ListBox 2 display a message box, otherwise select it in ListBox2.
+            if (index == -1)
+                MessageBox.Show("Item is not available in ListBox2");
+            else
+                listFriend.SetSelected(index, true);
+
+            MessageBox.Show(curItem);
+        }
     }
 }

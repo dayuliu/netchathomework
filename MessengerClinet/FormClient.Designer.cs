@@ -193,13 +193,14 @@
             // 
             listFriend.FormattingEnabled = true;
             listFriend.ItemHeight = 20;
-            listFriend.Items.AddRange(new object[] { "公共聊天室" });
+            listFriend.Items.AddRange(new object[] { "公共聊天室", "me" });
             listFriend.Location = new Point(8, 26);
             listFriend.Margin = new Padding(4);
             listFriend.Name = "listFriend";
             listFriend.Size = new Size(322, 464);
             listFriend.TabIndex = 0;
             listFriend.SelectedIndexChanged += listFriend_SelectedIndexChanged;
+            listFriend.SelectedValueChanged += listFriend_SelectedValueChanged;
             // 
             // FormClient
             // 
