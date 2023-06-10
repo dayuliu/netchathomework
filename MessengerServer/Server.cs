@@ -249,7 +249,16 @@ namespace MessengerServer
                             str_to_client = on_login(args, socket);
                             break;
                         }
-
+                    case "05":
+                        {
+                            str_to_client = on_private_chat(args, socket);
+                            break;
+                        }
+                    case "07":
+                        {
+                            str_to_client = on_broadcast(args, socket);
+                            break;
+                        }
                     case "09":
                         {
                             str_to_client = on_add_connection(args, socket);
@@ -311,6 +320,77 @@ namespace MessengerServer
             // 发送数据到其他客户端
 
         }
+
+        /**
+         * 私聊 05|fromAcount|destAccount|message
+         * 0:发送成功
+         * 1:好友不存在或者已经下线
+         * 2:发送失败
+         */
+        private string on_private_chat(string[] args, Socket socket)
+        {
+            // 发送账号
+            string fromAccount = args[1];
+            // 目标账号 
+            string destAccount = args[2];
+            byte[] message = Encoding.Default.GetBytes(args[3]);
+
+            // 目标账号不存在则返回 05|1
+            if (!nicknames.ContainsKey(destAccount))
+            {
+                return "05|1";
+            }
+
+            try
+            {
+                Socket dest_socket = sockets[destAccount];
+                // 添加发送者的地址和端口号
+                byte[] address = Encoding.Default.GetBytes(string.Format("06|{0}|[{1}] ", fromAccount,socket.RemoteEndPoint!.ToString()!));
+                int len = address.Length + message.Length;
+                byte[] sendBuffer = new byte[address.Length + message.Length];
+                address.CopyTo(sendBuffer, 0);
+                message.CopyTo(sendBuffer, address.Length);
+                dest_socket.Send(sendBuffer, len, SocketFlags.None);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                return "05|2";
+            }
+            return "05|0";
+        }
+
+        /**
+         * 07|message
+         */
+        private string on_broadcast(string[] args, Socket socket)
+        {
+            // 目标账号 
+            byte[] message = Encoding.Default.GetBytes(args[1]);
+            foreach (var socket_send in Clients)
+            {
+                // if (socket_send != socket)
+                if (true)
+                {
+                    try
+                    {
+                        // 添加发送者的地址和端口号
+                        byte[] address = Encoding.Default.GetBytes(string.Format("08|[{0}] ", socket.RemoteEndPoint!.ToString()!));
+                        int len = address.Length + message.Length;
+                        byte[] sendBuffer = new byte[len];
+                        address.CopyTo(sendBuffer, 0);
+                        message.CopyTo(sendBuffer, address.Length);
+                        socket_send.Send(sendBuffer, len, SocketFlags.None);
+                    } catch (Exception e)
+                    {
+                        MessageBox.Show(e.Message);
+                    }
+                }
+            }
+            return "07|0";
+        }
+
+       
         //登录所需函数
         private string on_reg(string[] args)
         {

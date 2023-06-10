@@ -16,6 +16,7 @@ namespace MessengerClinet
         private const int RECEIVE_BUFF_SIZE = 1024;     // 定义接收缓冲区大小
         byte[] buffer = new byte[5 * 1024 * 1024];  //创建接受消息缓存数组并约定缓存长度解决粘包问题
         Socket socketClient;
+        string clientAccount;
 
         FriendItem current_friend;
 
@@ -25,10 +26,10 @@ namespace MessengerClinet
         /// <summary>
         /// 构造函数 a
         /// </summary>
-        public FormClient(Socket socket)
+        public FormClient(string account, Socket socket)
         {
 
-
+            clientAccount = account;
             InitializeComponent();
 
             FriendItem pub_zone = new FriendItem("公共聊天室", "");
@@ -54,6 +55,14 @@ namespace MessengerClinet
 
             /* // 注册在线人员事件
              client.DataOnlineReceive += Client_DataOnlineReceive;*/
+
+            // 私聊事件
+            client.DataPrivateReceive += Client_DataPrivateReceive;
+
+            // 群聊事件
+            client.DataPrivateReceive += Client_DataBroadcastReceive;
+
+
             client.Send("13|");
 
         }
@@ -89,11 +98,6 @@ namespace MessengerClinet
                         }
 
                     }
-                    /* else if (tt[0] == "15") {
-                         DataOnlineReceive(this, new ReceiveEventArgs() { Text = TextFormat });
-
-                     }*/
-
                 });
                 // 处理消息
             }
@@ -101,6 +105,31 @@ namespace MessengerClinet
             {
                 MessageBox.Show(ex.ToString());
             }
+        }
+
+        private void Client_DataBroadcastReceive(object? sender, SocketCommon.ReceiveEventArgs e)
+        {
+            string context = e.Text;
+            // 显示接收到的数据
+            Invoke(() =>
+            {
+                string[] args = context.Split("|");
+                rtboxReceive.AppendText(args[1] + args[2]);
+            });
+        }
+        
+        /**
+         * 私聊
+         */
+        private void Client_DataPrivateReceive(object? sender, SocketCommon.ReceiveEventArgs e)
+        {
+            string context = e.Text;
+            // 显示接收到的数据
+            Invoke(() =>
+            {
+                string[] args = context.Split("|");
+                rtboxReceive.AppendText(args[1] + args[2]);
+            });
         }
 
         /// <summary>
@@ -245,6 +274,7 @@ namespace MessengerClinet
         {
 
             // 获取当前的对象
+            string message = tboxSend.Text;
 
             // 将自己发的字符串显示在接收区
 
@@ -260,9 +290,18 @@ namespace MessengerClinet
             tmp.ScrollToCaret();
 
             rtboxReceive = tmp;
+            Object friend = listFriend.SelectedItem;
+            if(friend != null && !"".Equals(friend.ToString()))
+            {
+                string friendAccount = friend.ToString();
+                message = "05|" + clientAccount + "|" + friendAccount + "|" + message;
+            } else
+            {
+                message = "07|" + message;
+            }
 
             // 发送字符串到服务器
-            client.Send(tboxSend.Text);
+            client.Send(message);
 
             // 清空发送区
             tboxSend.Clear();
@@ -294,6 +333,7 @@ namespace MessengerClinet
         {
 
 
+<<<<<<< HEAD
             FriendItem fi = (FriendItem)listFriend.SelectedItem;
 
             this.current_friend = fi;
@@ -307,5 +347,7 @@ namespace MessengerClinet
 
             MessageBox.Show(curItem);
         }
+=======
+>>>>>>> 43830e1cb1098c6437167c0129f5256fed4f0ca4
     }
 }
