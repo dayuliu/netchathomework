@@ -1,5 +1,7 @@
+using Microsoft.VisualBasic.ApplicationServices;
 using SocketCommon;
 using System.Net.Sockets;
+using System.Text;
 
 namespace MessengerClinet
 {
@@ -7,6 +9,10 @@ namespace MessengerClinet
     {
         private const int SERVER_PORT = 20255;          // 服务器端口号
         private Client client;                          // 客户端实例
+
+
+        private Dictionary<string, RichTextBox> userRepo = new Dictionary<string, RichTextBox>(); // 用户聊天记录
+
 
         /// <summary>
         /// 构造函数 a
@@ -27,8 +33,8 @@ namespace MessengerClinet
             // 注册好友列表事件
             client.DataFriendReceive += Client_DataFriReceive;
 
-           /* // 注册在线人员事件
-            client.DataOnlineReceive += Client_DataOnlineReceive;*/
+            /* // 注册在线人员事件
+             client.DataOnlineReceive += Client_DataOnlineReceive;*/
 
         }
 
@@ -163,6 +169,9 @@ namespace MessengerClinet
         /// </summary>
         private void Send()
         {
+
+            // 获取当前的对象
+
             // 将自己发的字符串显示在接收区
             rtboxReceive.AppendText(tboxSend.Text + "\r\n");
 
@@ -209,5 +218,20 @@ namespace MessengerClinet
         {
             rtboxReceive.Clear();
         }
+
+        private void listFriend_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnAddFriend_Click(object sender, EventArgs e)
+        {
+            string find_name = tboxFriName.Text;
+            this.client.Send("09|"+ find_name);
+
+        }
+
+
+  
     }
 }

@@ -24,6 +24,8 @@ namespace MessengerServer
         int user_cnt = 0; // 当前用户数，用于生成账号
         private Dictionary<string, string> passwords = new Dictionary<string, string>(); // account->password
         private Dictionary<string, string> nicknames = new Dictionary<string, string>(); // account->nickname
+
+
         private Dictionary<string, Socket> sockets = new Dictionary<string, Socket>(); // account->sockets
 
         //构造好友列表
@@ -251,6 +253,7 @@ namespace MessengerServer
                             str_to_client = on_login(args, socket);
                             break;
                         }
+
                     default:
                         {
                             foreach (var socket_send in Clients)
@@ -303,33 +306,38 @@ namespace MessengerServer
         //登录所需函数
         private string on_reg(string[] args)
         {
-            string account = string.Format("{0}", user_cnt++);
-            nicknames.Add(account, args[1]);
-            passwords.Add(account, args[2]);
-            friends.Add(account, new List<string>());
-            return "02|" + account;
+
+            if (nicknames.ContainsKey(args[1]))
+            {
+                return "02|1";
+            }
+
+            nicknames.Add(args[1], args[1]);
+            passwords.Add(args[1], args[2]);
+            friends.Add(args[1], new List<string>());
+            return "02|0";
         }
 
         private string on_login(string[] args, Socket socketWorker)
         {
             if (!nicknames.ContainsValue(args[1])) // 账号不存在
             {
-                return "04|00";
+                return "04|1";
             }
 
             if (passwords[nicknames.FirstOrDefault(x => x.Value == args[1]).Key] != args[2]) // 密码不正确
             {
-                return "04|01";
+                return "04|2";
             }
 
             if (sockets.ContainsKey(args[1])) // 用户已登录
             {
-                return "04|02";
+                return "04|3";
             }
 
             // 登录成功
             sockets[args[1]] = socketWorker;
-            return "04|03";
+            return "04|0";
         }
 
 

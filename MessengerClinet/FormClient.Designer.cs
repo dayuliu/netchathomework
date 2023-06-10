@@ -28,203 +28,204 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.rtboxReceive = new System.Windows.Forms.RichTextBox();
-            this.tboxSend = new System.Windows.Forms.TextBox();
-            this.btnSend = new System.Windows.Forms.Button();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.btnClear = new System.Windows.Forms.Button();
-            this.ssStrip = new System.Windows.Forms.StatusStrip();
-            this.tsslStatus = new System.Windows.Forms.ToolStripStatusLabel();
-            this.tspbProgress = new System.Windows.Forms.ToolStripProgressBar();
-            this.tboxServerIP1 = new System.Windows.Forms.TextBox();
-            this.label21 = new System.Windows.Forms.Label();
-            this.btnConnect1 = new System.Windows.Forms.Button();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.btnAddFriend = new System.Windows.Forms.Button();
-            this.tboxFriName = new System.Windows.Forms.TextBox();
-            this.listFriend = new System.Windows.Forms.ListBox();
-            this.groupBox1.SuspendLayout();
-            this.ssStrip.SuspendLayout();
-            this.groupBox2.SuspendLayout();
-            this.SuspendLayout();
+            rtboxReceive = new RichTextBox();
+            tboxSend = new TextBox();
+            btnSend = new Button();
+            groupBox1 = new GroupBox();
+            btnClear = new Button();
+            ssStrip = new StatusStrip();
+            tsslStatus = new ToolStripStatusLabel();
+            tspbProgress = new ToolStripProgressBar();
+            tboxServerIP1 = new TextBox();
+            label21 = new Label();
+            groupBox2 = new GroupBox();
+            btnAddFriend = new Button();
+            tboxFriName = new TextBox();
+            listFriend = new ListBox();
+            groupBox1.SuspendLayout();
+            ssStrip.SuspendLayout();
+            groupBox2.SuspendLayout();
+            SuspendLayout();
             // 
             // rtboxReceive
             // 
-            this.rtboxReceive.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.rtboxReceive.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.rtboxReceive.ForeColor = System.Drawing.Color.RoyalBlue;
-            this.rtboxReceive.Location = new System.Drawing.Point(13, 22);
-            this.rtboxReceive.Name = "rtboxReceive";
-            this.rtboxReceive.ReadOnly = true;
-            this.rtboxReceive.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-            this.rtboxReceive.Size = new System.Drawing.Size(355, 252);
-            this.rtboxReceive.TabIndex = 1;
-            this.rtboxReceive.Text = "";
+            rtboxReceive.BackColor = Color.WhiteSmoke;
+            rtboxReceive.BorderStyle = BorderStyle.None;
+            rtboxReceive.ForeColor = Color.RoyalBlue;
+            rtboxReceive.Location = new Point(17, 26);
+            rtboxReceive.Margin = new Padding(4);
+            rtboxReceive.Name = "rtboxReceive";
+            rtboxReceive.ReadOnly = true;
+            rtboxReceive.ScrollBars = RichTextBoxScrollBars.Vertical;
+            rtboxReceive.Size = new Size(456, 296);
+            rtboxReceive.TabIndex = 1;
+            rtboxReceive.Text = "";
             // 
             // tboxSend
             // 
-            this.tboxSend.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.tboxSend.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.tboxSend.Location = new System.Drawing.Point(13, 309);
-            this.tboxSend.Multiline = true;
-            this.tboxSend.Name = "tboxSend";
-            this.tboxSend.Size = new System.Drawing.Size(355, 109);
-            this.tboxSend.TabIndex = 0;
+            tboxSend.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+            tboxSend.BorderStyle = BorderStyle.None;
+            tboxSend.Location = new Point(17, 364);
+            tboxSend.Margin = new Padding(4);
+            tboxSend.Multiline = true;
+            tboxSend.Name = "tboxSend";
+            tboxSend.Size = new Size(456, 128);
+            tboxSend.TabIndex = 0;
             // 
             // btnSend
             // 
-            this.btnSend.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnSend.Enabled = false;
-            this.btnSend.Location = new System.Drawing.Point(293, 427);
-            this.btnSend.Name = "btnSend";
-            this.btnSend.Size = new System.Drawing.Size(75, 23);
-            this.btnSend.TabIndex = 3;
-            this.btnSend.Text = "发送";
-            this.btnSend.UseVisualStyleBackColor = true;
-            this.btnSend.Click += new System.EventHandler(this.btnSend_Click);
+            btnSend.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+            btnSend.Enabled = false;
+            btnSend.Location = new Point(377, 502);
+            btnSend.Margin = new Padding(4);
+            btnSend.Name = "btnSend";
+            btnSend.Size = new Size(96, 27);
+            btnSend.TabIndex = 3;
+            btnSend.Text = "发送";
+            btnSend.UseVisualStyleBackColor = true;
+            btnSend.Click += btnSend_Click;
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.btnClear);
-            this.groupBox1.Controls.Add(this.rtboxReceive);
-            this.groupBox1.Controls.Add(this.btnSend);
-            this.groupBox1.Controls.Add(this.tboxSend);
-            this.groupBox1.Location = new System.Drawing.Point(281, 61);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(381, 461);
-            this.groupBox1.TabIndex = 4;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "聊天区";
+            groupBox1.Controls.Add(btnClear);
+            groupBox1.Controls.Add(rtboxReceive);
+            groupBox1.Controls.Add(btnSend);
+            groupBox1.Controls.Add(tboxSend);
+            groupBox1.Location = new Point(361, 72);
+            groupBox1.Margin = new Padding(4);
+            groupBox1.Name = "groupBox1";
+            groupBox1.Padding = new Padding(4);
+            groupBox1.Size = new Size(490, 542);
+            groupBox1.TabIndex = 4;
+            groupBox1.TabStop = false;
+            groupBox1.Text = "聊天区";
             // 
             // btnClear
             // 
-            this.btnClear.Location = new System.Drawing.Point(293, 280);
-            this.btnClear.Name = "btnClear";
-            this.btnClear.Size = new System.Drawing.Size(75, 23);
-            this.btnClear.TabIndex = 4;
-            this.btnClear.Text = "清空";
-            this.btnClear.UseVisualStyleBackColor = true;
-            this.btnClear.Click += new System.EventHandler(this.btnClear_Click);
+            btnClear.Location = new Point(377, 329);
+            btnClear.Margin = new Padding(4);
+            btnClear.Name = "btnClear";
+            btnClear.Size = new Size(96, 27);
+            btnClear.TabIndex = 4;
+            btnClear.Text = "清空";
+            btnClear.UseVisualStyleBackColor = true;
+            btnClear.Click += btnClear_Click;
             // 
             // ssStrip
             // 
-            this.ssStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tsslStatus,
-            this.tspbProgress});
-            this.ssStrip.Location = new System.Drawing.Point(0, 525);
-            this.ssStrip.Name = "ssStrip";
-            this.ssStrip.Size = new System.Drawing.Size(700, 22);
-            this.ssStrip.TabIndex = 4;
-            this.ssStrip.Text = "statusStrip1";
+            ssStrip.ImageScalingSize = new Size(20, 20);
+            ssStrip.Items.AddRange(new ToolStripItem[] { tsslStatus, tspbProgress });
+            ssStrip.Location = new Point(0, 618);
+            ssStrip.Name = "ssStrip";
+            ssStrip.Padding = new Padding(1, 0, 18, 0);
+            ssStrip.Size = new Size(900, 26);
+            ssStrip.TabIndex = 4;
+            ssStrip.Text = "statusStrip1";
             // 
             // tsslStatus
             // 
-            this.tsslStatus.Name = "tsslStatus";
-            this.tsslStatus.Size = new System.Drawing.Size(80, 17);
-            this.tsslStatus.Text = "请连接服务器";
+            tsslStatus.Name = "tsslStatus";
+            tsslStatus.Size = new Size(99, 20);
+            tsslStatus.Text = "请连接服务器";
             // 
             // tspbProgress
             // 
-            this.tspbProgress.Name = "tspbProgress";
-            this.tspbProgress.Size = new System.Drawing.Size(100, 16);
-            this.tspbProgress.Style = System.Windows.Forms.ProgressBarStyle.Marquee;
-            this.tspbProgress.Value = 10;
-            this.tspbProgress.Visible = false;
+            tspbProgress.Name = "tspbProgress";
+            tspbProgress.Size = new Size(129, 18);
+            tspbProgress.Style = ProgressBarStyle.Marquee;
+            tspbProgress.Value = 10;
+            tspbProgress.Visible = false;
             // 
             // tboxServerIP1
             // 
-            this.tboxServerIP1.Location = new System.Drawing.Point(109, 15);
-            this.tboxServerIP1.Name = "tboxServerIP1";
-            this.tboxServerIP1.Size = new System.Drawing.Size(103, 23);
-            this.tboxServerIP1.TabIndex = 9;
-            this.tboxServerIP1.Text = "127.0.0.1";
+            tboxServerIP1.Location = new Point(140, 18);
+            tboxServerIP1.Margin = new Padding(4);
+            tboxServerIP1.Name = "tboxServerIP1";
+            tboxServerIP1.Size = new Size(131, 27);
+            tboxServerIP1.TabIndex = 9;
+            tboxServerIP1.Text = "127.0.0.1";
             // 
             // label21
             // 
-            this.label21.AutoSize = true;
-            this.label21.Location = new System.Drawing.Point(12, 18);
-            this.label21.Name = "label21";
-            this.label21.Size = new System.Drawing.Size(91, 17);
-            this.label21.TabIndex = 8;
-            this.label21.Text = "服务器IP地址：";
-            // 
-            // btnConnect1
-            // 
-            this.btnConnect1.Location = new System.Drawing.Point(225, 15);
-            this.btnConnect1.Name = "btnConnect1";
-            this.btnConnect1.Size = new System.Drawing.Size(101, 23);
-            this.btnConnect1.TabIndex = 10;
-            this.btnConnect1.Text = "连接服务器";
-            this.btnConnect1.UseVisualStyleBackColor = true;
-            this.btnConnect1.Click += new System.EventHandler(this.btnConnect_Click);
+            label21.AutoSize = true;
+            label21.Location = new Point(15, 21);
+            label21.Margin = new Padding(4, 0, 4, 0);
+            label21.Name = "label21";
+            label21.Size = new Size(112, 20);
+            label21.TabIndex = 8;
+            label21.Text = "服务器IP地址：";
             // 
             // groupBox2
             // 
-            this.groupBox2.Controls.Add(this.btnAddFriend);
-            this.groupBox2.Controls.Add(this.tboxFriName);
-            this.groupBox2.Controls.Add(this.listFriend);
-            this.groupBox2.Location = new System.Drawing.Point(12, 61);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(263, 461);
-            this.groupBox2.TabIndex = 11;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "好友栏";
+            groupBox2.Controls.Add(btnAddFriend);
+            groupBox2.Controls.Add(tboxFriName);
+            groupBox2.Controls.Add(listFriend);
+            groupBox2.Location = new Point(15, 72);
+            groupBox2.Margin = new Padding(4);
+            groupBox2.Name = "groupBox2";
+            groupBox2.Padding = new Padding(4);
+            groupBox2.Size = new Size(338, 542);
+            groupBox2.TabIndex = 11;
+            groupBox2.TabStop = false;
+            groupBox2.Text = "好友栏";
             // 
             // btnAddFriend
             // 
-            this.btnAddFriend.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnAddFriend.Enabled = false;
-            this.btnAddFriend.Location = new System.Drawing.Point(182, 427);
-            this.btnAddFriend.Name = "btnAddFriend";
-            this.btnAddFriend.Size = new System.Drawing.Size(75, 23);
-            this.btnAddFriend.TabIndex = 5;
-            this.btnAddFriend.Text = "添加";
-            this.btnAddFriend.UseVisualStyleBackColor = true;
+            btnAddFriend.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+            btnAddFriend.Location = new Point(234, 502);
+            btnAddFriend.Margin = new Padding(4);
+            btnAddFriend.Name = "btnAddFriend";
+            btnAddFriend.Size = new Size(96, 27);
+            btnAddFriend.TabIndex = 5;
+            btnAddFriend.Text = "添加";
+            btnAddFriend.UseVisualStyleBackColor = true;
+            btnAddFriend.Click += btnAddFriend_Click;
             // 
             // tboxFriName
             // 
-            this.tboxFriName.Location = new System.Drawing.Point(6, 427);
-            this.tboxFriName.Name = "tboxFriName";
-            this.tboxFriName.Size = new System.Drawing.Size(153, 23);
-            this.tboxFriName.TabIndex = 1;
+            tboxFriName.Location = new Point(8, 502);
+            tboxFriName.Margin = new Padding(4);
+            tboxFriName.Name = "tboxFriName";
+            tboxFriName.Size = new Size(196, 27);
+            tboxFriName.TabIndex = 1;
             // 
             // listFriend
             // 
-            this.listFriend.FormattingEnabled = true;
-            this.listFriend.ItemHeight = 17;
-            this.listFriend.Items.AddRange(new object[] {
-            "公共聊天室"});
-            this.listFriend.Location = new System.Drawing.Point(6, 22);
-            this.listFriend.Name = "listFriend";
-            this.listFriend.Size = new System.Drawing.Size(251, 395);
-            this.listFriend.TabIndex = 0;
+            listFriend.FormattingEnabled = true;
+            listFriend.ItemHeight = 20;
+            listFriend.Items.AddRange(new object[] { "公共聊天室" });
+            listFriend.Location = new Point(8, 26);
+            listFriend.Margin = new Padding(4);
+            listFriend.Name = "listFriend";
+            listFriend.Size = new Size(322, 464);
+            listFriend.TabIndex = 0;
+            listFriend.SelectedIndexChanged += listFriend_SelectedIndexChanged;
             // 
             // FormClient
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(700, 547);
-            this.Controls.Add(this.groupBox2);
-            this.Controls.Add(this.btnConnect1);
-            this.Controls.Add(this.tboxServerIP1);
-            this.Controls.Add(this.label21);
-            this.Controls.Add(this.ssStrip);
-            this.Controls.Add(this.groupBox1);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.MaximizeBox = false;
-            this.MinimizeBox = false;
-            this.Name = "FormClient";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Messenger Client";
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
-            this.ssStrip.ResumeLayout(false);
-            this.ssStrip.PerformLayout();
-            this.groupBox2.ResumeLayout(false);
-            this.groupBox2.PerformLayout();
-            this.ResumeLayout(false);
-            this.PerformLayout();
-
+            AutoScaleDimensions = new SizeF(9F, 20F);
+            AutoScaleMode = AutoScaleMode.Font;
+            ClientSize = new Size(900, 644);
+            Controls.Add(groupBox2);
+            Controls.Add(tboxServerIP1);
+            Controls.Add(label21);
+            Controls.Add(ssStrip);
+            Controls.Add(groupBox1);
+            FormBorderStyle = FormBorderStyle.FixedSingle;
+            Margin = new Padding(4);
+            MaximizeBox = false;
+            MinimizeBox = false;
+            Name = "FormClient";
+            StartPosition = FormStartPosition.CenterScreen;
+            Text = "Messenger Client";
+            groupBox1.ResumeLayout(false);
+            groupBox1.PerformLayout();
+            ssStrip.ResumeLayout(false);
+            ssStrip.PerformLayout();
+            groupBox2.ResumeLayout(false);
+            groupBox2.PerformLayout();
+            ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
@@ -245,6 +246,5 @@
         private TextBox tboxFriName;
         private TextBox tboxServerIP1;
         private Label label21;
-        private Button btnConnect1;
     }
 }
