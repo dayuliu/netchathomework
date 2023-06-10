@@ -12,9 +12,8 @@
       }
     ],
     "additionalProbingPaths": [
-      "C:\\Users\\buaas\\.dotnet\\store\\|arch|\\|tfm|",
-      "C:\\Users\\buaas\\.nuget\\packages",
-      "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+      "C:\\Users\\jabian\\.dotnet\\store\\|arch|\\|tfm|",
+      "C:\\Users\\jabian\\.nuget\\packages"
     ],
     "configProperties": {
       "Microsoft.NETCore.DotNetHostPolicy.SetAppPaths": true

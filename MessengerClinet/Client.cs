@@ -20,6 +20,8 @@ namespace MessengerClinet
         /// </summary>
         public event EventHandler<ReceiveEventArgs> DataReceive = default!;
 
+        public event EventHandler<ReceiveEventArgs> AddConnectionReceive = default!;
+
         /// <summary>
         /// 事件——收到好友数据
         /// </summary>
@@ -152,7 +154,11 @@ namespace MessengerClinet
         {
             string TextFormat = Encoding.Default.GetString(buffer, 0, len);
             string[] tt = TextFormat.Split("|");
-            if (tt[0] == "14") {
+            if (tt[0] == "10")
+            {
+                AddConnectionReceive(this, new ReceiveEventArgs() { Text = tt[1] });
+            }
+            else if (tt[0] == "14") {
                 int i = 1;
                 for (; i < tt.Length; i++)
                 {

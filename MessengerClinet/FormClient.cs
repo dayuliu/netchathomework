@@ -27,6 +27,8 @@ namespace MessengerClinet
             // 注册服务器连接状态刷新事件
             client.RefreshConnectStatus += Client_RefreshConnectStatus;
 
+            client.AddConnectionReceive += Client_AddConnectionReceive;
+
             // 注册数据接收事件
             client.DataReceive += Client_DataReceive;
 
@@ -78,6 +80,26 @@ namespace MessengerClinet
             Invoke(() =>
             {
                 rtboxReceive.AppendText(e.Text + "\r\n");
+            });
+        }
+
+        private void Client_AddConnectionReceive(object? sender, SocketCommon.ReceiveEventArgs e)
+        {
+            Invoke(() =>
+            {
+                var result = e.Text;
+                switch (result) {
+                    case "00":
+                        MessageBox.Show("用户不存在，请重试");
+                        break;
+                    case "01":
+                        MessageBox.Show("添加成功");
+                        // TODO: shengqing, 刷新列表 or Server Push
+                        break;
+                    default:
+                        MessageBox.Show("未知错误");
+                        break;
+                }
             });
         }
 

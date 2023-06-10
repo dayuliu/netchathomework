@@ -254,6 +254,12 @@ namespace MessengerServer
                             break;
                         }
 
+                    case "09":
+                        {
+                            str_to_client = on_add_connection(args, socket);
+                            break;
+                        }
+
                     default:
                         {
                             foreach (var socket_send in Clients)
@@ -340,6 +346,29 @@ namespace MessengerServer
             return "04|0";
         }
 
+
+        private string on_add_connection(string[] args, Socket socketWorker)
+        {
+            if (!nicknames.ContainsValue(args[1])) // 账号不存在
+            {
+                return "10|00";
+            }
+            var currentUserPir = sockets.First(kv => kv.Value == socketWorker);
+            var currentUserId = currentUserPir.Key;
+            if (currentUserId == null)
+                return "10|00";
+            var currentFriends = friends[currentUserId];
+            if (!currentFriends.Contains(args[1]))
+            {
+                currentFriends.Add(args[1]);
+            }
+            friends[currentUserId] = currentFriends;
+
+            // notify user
+            SendClientFriendList(currentUserPir.Value);
+
+            return "10|01";
+        }
 
 
         //好友列表更新所需函数
