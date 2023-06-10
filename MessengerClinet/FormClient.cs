@@ -19,10 +19,13 @@ namespace MessengerClinet
         /// </summary>
         public FormClient(Socket socket)
         {
+
+
             InitializeComponent();
 
             // 初始化客户端
             client = new Client(socket);
+
 
             // 注册服务器连接状态刷新事件
             client.RefreshConnectStatus += Client_RefreshConnectStatus;
@@ -37,6 +40,7 @@ namespace MessengerClinet
 
             /* // 注册在线人员事件
              client.DataOnlineReceive += Client_DataOnlineReceive;*/
+
 
         }
 
