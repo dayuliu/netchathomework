@@ -144,7 +144,7 @@ namespace MessengerClinet
                             MessageBox.Show(context);
                             break;
                     }
-                   
+
                 });
                 // 处理消息
             }
