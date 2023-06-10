@@ -132,7 +132,6 @@ namespace MessengerClinet
                         break;
                     case "01":
                         MessageBox.Show("添加成功");
-                        // TODO: shengqing, 刷新列表 or Server Push
                         break;
                     case "02":
                         MessageBox.Show("已经添加过");
