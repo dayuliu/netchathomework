@@ -1,20 +1,25 @@
 {
   "format": 1,
   "restore": {
-    "\\\\Mac\\Home\\Workspace\\BUAA\\课程\\一级工程实践\\netchathomework\\SocketCommon\\SocketCommon.csproj": {}
+    "D:\\workspace\\新建文件夹\\netchathomework-master\\SocketCommon\\SocketCommon.csproj": {}
   },
   "projects": {
-    "\\\\Mac\\Home\\Workspace\\BUAA\\课程\\一级工程实践\\netchathomework\\SocketCommon\\SocketCommon.csproj": {
+    "D:\\workspace\\新建文件夹\\netchathomework-master\\SocketCommon\\SocketCommon.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "\\\\Mac\\Home\\Workspace\\BUAA\\课程\\一级工程实践\\netchathomework\\SocketCommon\\SocketCommon.csproj",
+        "projectUniqueName": "D:\\workspace\\新建文件夹\\netchathomework-master\\SocketCommon\\SocketCommon.csproj",
         "projectName": "SocketCommon",
-        "projectPath": "\\\\Mac\\Home\\Workspace\\BUAA\\课程\\一级工程实践\\netchathomework\\SocketCommon\\SocketCommon.csproj",
-        "packagesPath": "C:\\Users\\jabian\\.nuget\\packages\\",
-        "outputPath": "\\\\Mac\\Home\\Workspace\\BUAA\\课程\\一级工程实践\\netchathomework\\SocketCommon\\obj\\",
+        "projectPath": "D:\\workspace\\新建文件夹\\netchathomework-master\\SocketCommon\\SocketCommon.csproj",
+        "packagesPath": "C:\\Users\\Loko\\.nuget\\packages\\",
+        "outputPath": "D:\\workspace\\新建文件夹\\netchathomework-master\\SocketCommon\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
         "configFilePaths": [
-          "C:\\Users\\jabian\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Loko\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -55,7 +60,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.201\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.202\\RuntimeIdentifierGraph.json"
         }
       }
     }

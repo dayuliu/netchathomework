@@ -43,7 +43,7 @@ namespace MessengerClinet
 
             /* // 注册在线人员事件
              client.DataOnlineReceive += Client_DataOnlineReceive;*/
-
+            client.Send("13|");
 
         }
 

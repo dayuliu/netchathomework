@@ -97,6 +97,7 @@ namespace MessengerServer
                 {
                     for (int i = 0; i < Clients.Count; i++)
                     {
+                       
                         if (!Tools.IsSocketConnected(Clients[i]))
                         {
                             try
@@ -149,32 +150,32 @@ namespace MessengerServer
             client_socket.BeginReceive(state.Buffer, 0, RECEIVE_BUFF_SIZE, SocketFlags.None, ReceiveCallback, state);
 
 
-            //模拟添加好友场景，模拟新登录一个人，所有在线的人都加他为好友  ---  可删除
-            foreach (var socket in Clients)
-            {
-                if (socket != client_socket)
-                {
-                    try
-                    {
-                        if(sockets.FirstOrDefault(x => x.Value == client_socket).Key is not null)
-                        { 
-                        friends[sockets.FirstOrDefault(x => x.Value == socket).Key].Add(sockets.FirstOrDefault(x => x.Value == client_socket)!.Key);
+            /*  //模拟添加好友场景，模拟新登录一个人，所有在线的人都加他为好友  ---  可删除
+              foreach (var socket in Clients)
+              {
+                  if (socket != client_socket)
+                  {
+                      try
+                      {
+                          if(sockets.FirstOrDefault(x => x.Value == client_socket).Key is not null)
+                          { 
+                          friends[sockets.FirstOrDefault(x => x.Value == socket).Key].Add(sockets.FirstOrDefault(x => x.Value == client_socket)!.Key);
+                          }
+                      }
+                      finally
+                      {
+                      }
+                  }
+              }
+  */
+
+            /*
+                        //添加好友后，向客户端发送事件
+                        foreach (var socket_send in Clients)
+                        {
+                            SendClientFriendList(socket_send);
                         }
-                    }
-                    finally
-                    {
-                    }
-                }
-            }
-
-
-
-            //添加好友后，向客户端发送事件
-            foreach (var socket_send in Clients)
-            {
-                SendClientFriendList(socket_send);
-            }
-
+            */
 
 
             // 修改连接客户端列表
@@ -190,11 +191,6 @@ namespace MessengerServer
 
 
 
-            //触发更新client端的列表状态更新
-            /*            foreach (var socket_send in Clients)
-                        {
-                            SendClientList(socket_send);
-                        }*/
 
             // 异步等待新客户端连接
             server_socket.BeginAccept(AcceptCallback, null);
@@ -257,6 +253,12 @@ namespace MessengerServer
                     case "09":
                         {
                             str_to_client = on_add_connection(args, socket);
+                            break;
+                        }
+
+                    case "13":
+                        {
+                            SendClientFriendList(socket);
                             break;
                         }
 
@@ -366,7 +368,7 @@ namespace MessengerServer
             friends[currentUserId] = currentFriends;
 
             // notify user
-            SendClientFriendList(currentUserPir.Value);
+            SendClientFriendList(socketWorker);
 
             return "10|01";
         }
@@ -390,52 +392,7 @@ namespace MessengerServer
 
         }
 
-        /// <summary>
-        /// 向客户端发送当前在线人数
-        /// </summary>
-        /// <param name="socket">客户的socket文件</param>
-        /// <returns></returns>
-        private bool SendClientList(Socket socket)
-        {
-            try
-            {
-                List<string> clientList = new List<string>();
-                lock (clientListLock)
-                {
-                    if (Clients is not null)
-                    {
-                        foreach (var client in Clients)
-                        {
 
-                            if (client != socket)
-                            {
-                                clientList.Add(client.RemoteEndPoint!.ToString()!);
-                            }
-                        }
-                    }
-
-                }
-                //构造传递在线用户的数据格式
-                string sendClintlist = "15|";
-                if (clientList is not null && clientList.Count() != 0)
-                {
-                    foreach (string clientname in clientList)
-                    {
-                        sendClintlist += clientname + "|";
-                    }
-                    sendClintlist = sendClintlist.Substring(0, sendClintlist.Length - 1);
-                    byte[] buffer = Encoding.Default.GetBytes(sendClintlist);
-                    // 进行发送
-                    socket.Send(buffer, SocketFlags.None);
-                }
-                return true;
-            }
-            catch (Exception ex) when (ex is SocketException || ex is ObjectDisposedException)
-            {
-                // 连接已关闭或清理，返回false
-                return false;
-            }
-        }
         /// <summary>
         /// 将个人的好友信息发送到客户端
         /// </summary>
@@ -445,10 +402,17 @@ namespace MessengerServer
         {
             try
             {
-                List<string> flist;
-                lock (friends)
+                List<string> flist = default!;
+                if (friends.Count != 0)
                 {
-                    flist = friends[nicknames.FirstOrDefault(z => z.Value == (sockets.FirstOrDefault(x => x.Value == socket).Key)).Key];
+                    lock (friends)
+                    {
+                        var temp = sockets.FirstOrDefault(x => x.Value == socket);
+                        if (temp.Key is not null )
+                        {
+                            flist = friends[temp.Key];
+                        }
+                    }
                 }
                 //构造传递用户好友的数据格式
                 string sendClintFriendlist = "14|";
@@ -461,7 +425,7 @@ namespace MessengerServer
                     sendClintFriendlist = sendClintFriendlist.Substring(0, sendClintFriendlist.Length - 1);
                     byte[] buffer = Encoding.Default.GetBytes(sendClintFriendlist);
                     // 进行发送
-                    socket.Send(buffer, SocketFlags.None);
+                    socket.Send(buffer, 0, buffer.Length, SocketFlags.None);
                 }
                 return true;
             }
