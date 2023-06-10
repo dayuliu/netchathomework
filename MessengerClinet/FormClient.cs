@@ -26,8 +26,17 @@ namespace MessengerClinet
         /// <summary>
         /// 构造函数 a
         /// </summary>
-        public FormClient(string account, Socket socket)
+        public FormClient(string account, Client c)
         {
+
+            client = c;
+
+            // 注册服务器连接状态刷新事件
+            client.RefreshConnectStatus += Client_RefreshConnectStatus;
+
+            // 注册数据接收事件
+            client.DataReceive += Client_DataReceive;
+
 
             clientAccount = account;
             InitializeComponent();
@@ -37,17 +46,6 @@ namespace MessengerClinet
             listFriend.SelectedIndex = 0;
             current_friend = pub_zone;
 
-
-
-            socketClient = socket;
-            socket.BeginReceive(buffer, 0, buffer.Length, SocketFlags.None, new AsyncCallback(ReceiveCallback), socketClient);// 异步接受消息
-
-            // 初始化客户端
-            client = new Client(socket);
-
-
-            // 注册服务器连接状态刷新事件
-            client.RefreshConnectStatus += Client_RefreshConnectStatus;
 
             client.AddConnectionReceive += Client_AddConnectionReceive;
 
@@ -61,12 +59,55 @@ namespace MessengerClinet
             client.DataPrivateReceive += Client_DataPrivateReceive;
 
             // 群聊事件
-            client.DataPrivateReceive += Client_DataBroadcastReceive;
+            client.DataBroadcastReceive += Client_DataBroadcastReceive;
 
 
             client.Send("13|");
 
         }
+
+
+
+        /// <summary>
+        /// 事件——数据接收事件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Client_DataReceive(object? sender, SocketCommon.ReceiveEventArgs e)
+        {
+
+            string context = e.Text;
+            Invoke(() =>
+            {
+                string[] tt = context.Split("|");
+                string action = tt[0];
+                switch (action)
+                {
+                    case "10":
+                        Client_AddConnectionReceive(this, new ReceiveEventArgs() { Text = tt[1] });
+                        break;
+                    case "14":
+                        int i = 1;
+                        for (; i < tt.Length; i++)
+                        {
+                            Client_DataFriReceive(this, new ReceiveEventArgs() { Text = tt[i] });
+                        }
+                        break;
+                    case "08":
+                        MessageBox.Show(context);
+                        break;
+                    default:
+                        MessageBox.Show(context);
+                        break;
+
+                }
+
+            });
+            // 处理消息
+
+
+        }
+
 
         private void ReceiveCallback(IAsyncResult ia)
         {
@@ -120,7 +161,7 @@ namespace MessengerClinet
             Invoke(() =>
             {
                 string[] args = context.Split("|");
-                rtboxReceive.AppendText(args[1] + args[2]);
+                rtboxReceive.AppendText(args[1]);
             });
         }
 

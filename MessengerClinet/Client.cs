@@ -4,7 +4,7 @@ using System.Text;
 
 namespace MessengerClinet
 {
-    internal class Client
+    public class Client
     {
         private Socket client_socket;                   // 客户端Socket
         private const int RECEIVE_BUFF_SIZE = 1024;     // 定义接收缓冲区大小
@@ -43,10 +43,10 @@ namespace MessengerClinet
         /// <summary>
         /// 构造函数
         /// </summary>
-        public Client (Socket socket)
+        public Client ()
         {
             // 初始化客户端Socket
-            client_socket = socket;
+            client_socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
         }
 
         /// <summary>

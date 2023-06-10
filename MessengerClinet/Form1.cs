@@ -4,44 +4,112 @@ using System.Threading;
 using System.Text;
 using MessengerClinet;
 using System.Drawing;
+using SocketCommon;
+using System.Threading.Tasks;
 
 namespace ChatClient
 {
     public partial class Form1 : Form
     {
+
+
+
+        private Client client;                          // 客户端实例
+
+
         public Form1()
         {
             InitializeComponent();
+            button_reg.Enabled = false;
+            button_login.Enabled = false;
+
+            // 初始化客户端
+            client = new Client();
+
+            // 注册服务器连接状态刷新事件
+            client.RefreshConnectStatus += Client_RefreshConnectStatus;
+
+            // 注册数据接收事件
+            client.DataReceive += Client_DataReceive;
+
+
         }
-        private void button_connect_Click(object sender, EventArgs e) // 连接服务器
+
+
+
+
+        /// <summary>
+        /// 事件——数据接收事件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Client_DataReceive(object? sender, SocketCommon.ReceiveEventArgs e)
         {
-            if (label_connected.Text != "服务器已连接")
+            // 显示接收到的数据
+
+            string context = e.Text;
+            Invoke(() =>
             {
-                socketClient = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-                IPEndPoint _port = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 20255);
-                socketClient.SendTimeout = 1000;
-                socketClient.BeginConnect(_port, new AsyncCallback(ConnectCallback), socketClient);
-            }
+                string[] args = context.Split("|");
+
+                switch (args[0])
+                {
+                    case "02": // 注册
+                        {
+                            on_reg_resp(args);
+                            break;
+                        }
+
+                    case "04": // 登录
+                        {
+                            on_login_resp(args);
+                            break;
+                        }
+
+                    default:
+                        break;
+                }
+
+            });
         }
-        private void ConnectCallback(IAsyncResult ia) // 连接成功的回调
+
+
+        /// <summary>
+        /// 事件——服务器连接状态改变
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Client_RefreshConnectStatus(object? sender, ConnectEventArgs e)
         {
-            try
+            if (e.Connected)
             {
+                // 更新状态栏显示及按钮状态
                 Invoke(() =>
                 {
-                    ((Socket)ia.AsyncState).EndConnect(ia);
-                    socketClient = ia.AsyncState as Socket;
-
                     label_connected.Text = "服务器已连接";
-                    socketClient.BeginReceive(buffer, 0, buffer.Length, SocketFlags.None, new AsyncCallback(ReceiveCallback), socketClient);// 异步接受消息
+                    button_connect.Visible = false;
+                    button_reg.Enabled = true;
+                    button_login.Enabled = true;
                 });
             }
-            catch (Exception ex)  //异常捕获
+            else
             {
-                MessageBox.Show(ex.ToString());
+                // 更新状态栏显示及按钮状态
+                Invoke(() =>
+                {
+                    label_connected.Text = "正在连接服务器...";
+                });
             }
         }
 
+
+
+        private void button_connect_Click(object sender, EventArgs e) // 连接服务器
+        {
+
+            client.Connect("127.0.0.1", 20255);
+        }
+      
         private void ReceiveCallback(IAsyncResult ia) // 接收到消息的回调
         {
             socketClient = ia.AsyncState as Socket;
@@ -70,7 +138,7 @@ namespace ChatClient
 
                         case "04": // 登录
                             {
-                                 on_login_resp(args, ia);
+                                 on_login_resp(args);
                                 break;
                             }
 
@@ -105,7 +173,7 @@ namespace ChatClient
 
         }
 
-        private void on_login_resp(string[] args, IAsyncResult ia)
+        private void on_login_resp(string[] args)
         {
 
             if (args[1] == "1")
@@ -131,8 +199,12 @@ namespace ChatClient
             MessageBox.Show("登录成功");
 
             this.Hide();
-            socketClient.EndReceive(ia);
-            Form formClient = new FormClient(textBox_nickname_reg.Text, socketClient);
+            // 注册服务器连接状态刷新事件
+            client.RefreshConnectStatus -= Client_RefreshConnectStatus;
+
+            // 注册数据接收事件
+            client.DataReceive -= Client_DataReceive;
+            Form formClient = new FormClient(textBox_nickname_reg.Text, this.client);
             formClient.Show();
 
         }
@@ -151,13 +223,9 @@ namespace ChatClient
 
         private void send_to_Server(string str)
         {
-            byte[] buffer_tmp = Encoding.Default.GetBytes(str);
-            socketClient.Send(buffer_tmp, 0, buffer_tmp.Length, SocketFlags.None);
+            client.Send(str);
         }
 
-        private void label4_Click(object sender, EventArgs e)
-        {
-
-        }
+       
     }
 }
