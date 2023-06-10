@@ -26,12 +26,19 @@ namespace MessengerClinet
         /// 事件——收到好友数据
         /// </summary>
         public event EventHandler<ReceiveEventArgs> DataFriendReceive = default!;
-        
-/*        /// <summary>
-        /// 事件——收到当前在线人员数据
-        /// </summary>
-        public event EventHandler<ReceiveEventArgs> DataOnlineReceive = default!;
-*/
+
+        // 私聊事件
+        public event EventHandler<ReceiveEventArgs> DataPrivateReceive = default!;
+
+        // 群聊广播事件
+        public event EventHandler<ReceiveEventArgs> DataBroadcastReceive = default!;
+
+
+        /*        /// <summary>
+                /// 事件——收到当前在线人员数据
+                /// </summary>
+                public event EventHandler<ReceiveEventArgs> DataOnlineReceive = default!;
+        */
 
         /// <summary>
         /// 构造函数
@@ -164,12 +171,17 @@ namespace MessengerClinet
                 {
                     DataFriendReceive(this, new ReceiveEventArgs() { Text = tt[i] });
                 }
-
             }
-           /* else if (tt[0] == "15") {
-                DataOnlineReceive(this, new ReceiveEventArgs() { Text = TextFormat });
-                
-            }*/
+            // 私聊 06|fromAccount+Info|message
+            else if (tt[0] == "06")
+            {
+                DataPrivateReceive(this, new ReceiveEventArgs() { Text = TextFormat });
+            }
+
+            else if (tt[0] == "08")
+            {
+                DataBroadcastReceive(this, new ReceiveEventArgs() { Text = TextFormat });
+            }
 
             else
             {

@@ -132,7 +132,7 @@ namespace ChatClient
 
             this.Hide();
             socketClient.EndReceive(ia);
-            Form formClient = new FormClient(socketClient);
+            Form formClient = new FormClient(textBox_nickname_reg.Text, socketClient);
             formClient.Show();
 
         }
