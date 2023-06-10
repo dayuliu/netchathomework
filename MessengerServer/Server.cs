@@ -502,7 +502,7 @@ namespace MessengerServer
                     foreach (string clientname in flist)
                     {
                         string nname = nicknames[clientname];
-                        sendClintFriendlist += nname + "(" + clientname + ")" + "|";
+                        sendClintFriendlist += nname + "|" + clientname  + "|";
                     }
                     sendClintFriendlist = sendClintFriendlist.Substring(0, sendClintFriendlist.Length - 1);
                     byte[] buffer = Encoding.Default.GetBytes(sendClintFriendlist);

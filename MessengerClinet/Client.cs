@@ -167,9 +167,9 @@ namespace MessengerClinet
             }
             else if (tt[0] == "14") {
                 int i = 1;
-                for (; i < tt.Length; i++)
+                for (; i < tt.Length && i+1 <tt.Length; i=i+2)
                 {
-                    DataFriendReceive(this, new ReceiveEventArgs() { Text = tt[i] });
+                    DataFriendReceive(this, new ReceiveEventArgs() { Text = tt[i]+"|"+tt[i+1] });
                 }
             }
             // 私聊 06|fromAccount+Info|message
