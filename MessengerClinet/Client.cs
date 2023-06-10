@@ -21,12 +21,23 @@ namespace MessengerClinet
         public event EventHandler<ReceiveEventArgs> DataReceive = default!;
 
         /// <summary>
+        /// 事件——收到好友数据
+        /// </summary>
+        public event EventHandler<ReceiveEventArgs> DataFriendReceive = default!;
+        
+/*        /// <summary>
+        /// 事件——收到当前在线人员数据
+        /// </summary>
+        public event EventHandler<ReceiveEventArgs> DataOnlineReceive = default!;
+*/
+
+        /// <summary>
         /// 构造函数
         /// </summary>
-        public Client ()
+        public Client (Socket socket)
         {
             // 初始化客户端Socket
-            client_socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+            client_socket = socket;
         }
 
         /// <summary>
@@ -139,8 +150,28 @@ namespace MessengerClinet
         /// <param name="len"></param>
         private void ProcessReceivedData(Socket socket, byte[] buffer, int len)
         {
-            // 触发数据接收事件
-            DataReceive(this, new ReceiveEventArgs() { Text = Encoding.Default.GetString(buffer, 0, len) });
+            string TextFormat = Encoding.Default.GetString(buffer, 0, len);
+            string[] tt = TextFormat.Split("|");
+            if (tt[0] == "14") {
+                int i = 1;
+                for (; i < tt.Length; i++)
+                {
+                    DataFriendReceive(this, new ReceiveEventArgs() { Text = tt[i] });
+                }
+
+            }
+           /* else if (tt[0] == "15") {
+                DataOnlineReceive(this, new ReceiveEventArgs() { Text = TextFormat });
+                
+            }*/
+
+            else
+            {
+                // 触发数据接收事件
+                DataReceive(this, new ReceiveEventArgs() { Text = Encoding.Default.GetString(buffer, 0, len) });
+            }
+           
+
         }
     }
 }

@@ -1,4 +1,5 @@
 using SocketCommon;
+using System.Net.Sockets;
 
 namespace MessengerClinet
 {
@@ -10,18 +11,25 @@ namespace MessengerClinet
         /// <summary>
         /// 构造函数 a
         /// </summary>
-        public FormClient()
+        public FormClient(Socket socket)
         {
             InitializeComponent();
 
             // 初始化客户端
-            client = new Client();
+            client = new Client(socket);
 
             // 注册服务器连接状态刷新事件
             client.RefreshConnectStatus += Client_RefreshConnectStatus;
 
             // 注册数据接收事件
             client.DataReceive += Client_DataReceive;
+
+            // 注册好友列表事件
+            client.DataFriendReceive += Client_DataFriReceive;
+
+           /* // 注册在线人员事件
+            client.DataOnlineReceive += Client_DataOnlineReceive;*/
+
         }
 
         /// <summary>
@@ -66,6 +74,62 @@ namespace MessengerClinet
                 rtboxReceive.AppendText(e.Text + "\r\n");
             });
         }
+
+
+        /// <summary>
+        /// 事件——好友数据接收事件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Client_DataFriReceive(object? sender, SocketCommon.ReceiveEventArgs e)
+        {
+            // 显示接收到的数据
+            Invoke(() =>
+            {
+                List<string> temp = new List<string>();
+                foreach (var item in listFriend.Items)
+                {
+                    string[] sitem = item.ToString().Split("|");
+                    temp.Add(sitem[0]);
+
+                }
+                if (!temp.Contains(e.Text))
+                {
+                    listFriend.Items.Add(e.Text);
+                }
+            });
+        }
+        /// <summary>
+        /// 事件---状态更新事件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+/*        private void Client_DataOnlineReceive(object? sender, SocketCommon.ReceiveEventArgs e)
+        {
+            // 显示接收到的数据
+            Invoke(() =>
+            {
+                string[] userlist = e.Text.Split("|");
+                var tserver = listFriend.Items;
+                foreach (var item in tserver) {
+                    string[] sitem = item.ToString().Split("|");
+                   
+                    if (Array.IndexOf(userlist,sitem[0]) >0) {
+                        int index = listFriend.Items.IndexOf(item);
+                        listFriend.Items[index] = sitem[0] + "|在线";
+                    }
+                    else if (Array.IndexOf(userlist, sitem[0]) < 0)
+                    {
+                        int index = listFriend.Items.IndexOf(item);
+                        listFriend.Items[index] = sitem[0];
+                    }
+                }
+            });
+        }*/
+
+
+
+
 
         /// <summary>
         /// 事件——按下发送键

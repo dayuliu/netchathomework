@@ -1,35 +1,38 @@
 {
   "format": 1,
   "restore": {
-    "\\\\Mac\\Home\\Documents\\didi\\buaa\\工程\\课件\\Messenger\\MessengerClinet\\MessengerClinet.csproj": {}
+    "D:\\新建文件夹\\netchathomework-master\\MessengerClinet\\MessengerClinet.csproj": {}
   },
   "projects": {
-    "\\\\Mac\\Home\\Documents\\didi\\buaa\\工程\\课件\\Messenger\\MessengerClinet\\MessengerClinet.csproj": {
+    "D:\\新建文件夹\\netchathomework-master\\MessengerClinet\\MessengerClinet.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "\\\\Mac\\Home\\Documents\\didi\\buaa\\工程\\课件\\Messenger\\MessengerClinet\\MessengerClinet.csproj",
+        "projectUniqueName": "D:\\新建文件夹\\netchathomework-master\\MessengerClinet\\MessengerClinet.csproj",
         "projectName": "MessengerClinet",
-        "projectPath": "\\\\Mac\\Home\\Documents\\didi\\buaa\\工程\\课件\\Messenger\\MessengerClinet\\MessengerClinet.csproj",
-        "packagesPath": "C:\\Users\\liugang\\.nuget\\packages\\",
-        "outputPath": "\\\\Mac\\Home\\Documents\\didi\\buaa\\工程\\课件\\Messenger\\MessengerClinet\\obj\\",
+        "projectPath": "D:\\新建文件夹\\netchathomework-master\\MessengerClinet\\MessengerClinet.csproj",
+        "packagesPath": "C:\\Users\\lenovo\\.nuget\\packages\\",
+        "outputPath": "D:\\新建文件夹\\netchathomework-master\\MessengerClinet\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "C:\\Users\\liugang\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\lenovo\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net6.0-windows"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net6.0-windows7.0": {
             "targetAlias": "net6.0-windows",
             "projectReferences": {
-              "\\\\Mac\\Home\\Documents\\didi\\buaa\\工程\\课件\\Messenger\\SocketCommon\\SocketCommon.csproj": {
-                "projectPath": "\\\\Mac\\Home\\Documents\\didi\\buaa\\工程\\课件\\Messenger\\SocketCommon\\SocketCommon.csproj"
+              "D:\\新建文件夹\\netchathomework-master\\SocketCommon\\SocketCommon.csproj": {
+                "projectPath": "D:\\新建文件夹\\netchathomework-master\\SocketCommon\\SocketCommon.csproj"
               }
             }
           }
@@ -62,28 +65,31 @@
               "privateAssets": "none"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.201\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.400\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "\\\\Mac\\Home\\Documents\\didi\\buaa\\工程\\课件\\Messenger\\SocketCommon\\SocketCommon.csproj": {
+    "D:\\新建文件夹\\netchathomework-master\\SocketCommon\\SocketCommon.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "\\\\Mac\\Home\\Documents\\didi\\buaa\\工程\\课件\\Messenger\\SocketCommon\\SocketCommon.csproj",
+        "projectUniqueName": "D:\\新建文件夹\\netchathomework-master\\SocketCommon\\SocketCommon.csproj",
         "projectName": "SocketCommon",
-        "projectPath": "\\\\Mac\\Home\\Documents\\didi\\buaa\\工程\\课件\\Messenger\\SocketCommon\\SocketCommon.csproj",
-        "packagesPath": "C:\\Users\\liugang\\.nuget\\packages\\",
-        "outputPath": "\\\\Mac\\Home\\Documents\\didi\\buaa\\工程\\课件\\Messenger\\SocketCommon\\obj\\",
+        "projectPath": "D:\\新建文件夹\\netchathomework-master\\SocketCommon\\SocketCommon.csproj",
+        "packagesPath": "C:\\Users\\lenovo\\.nuget\\packages\\",
+        "outputPath": "D:\\新建文件夹\\netchathomework-master\\SocketCommon\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "C:\\Users\\liugang\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\lenovo\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net6.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -117,7 +123,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.201\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.400\\RuntimeIdentifierGraph.json"
         }
       }
     }

@@ -1,8 +1,13 @@
 ﻿using SocketCommon;
+using System.Drawing;
+using System;
 using System.Net;
 using System.Net.Sockets;
 using System.Security;
 using System.Text;
+using static System.Net.Mime.MediaTypeNames;
+using Microsoft.VisualBasic;
+using System.Globalization;
 
 namespace MessengerServer
 {
@@ -11,8 +16,23 @@ namespace MessengerServer
         private Socket server_socket;                   // 服务器Socket实例
         private List<Socket> Clients;                   // 已连接客户端列表
 
+
         private object clientListLock = new object();   // 客户端列表操作锁
-        private const int RECEIVE_BUFF_SIZE = 1024;     // 接收缓冲区大小
+        private const int RECEIVE_BUFF_SIZE = 1024 * 1024;     // 接收缓冲区大小
+
+        //登录注册使用
+        int user_cnt = 0; // 当前用户数，用于生成账号
+        private Dictionary<string, string> passwords = new Dictionary<string, string>(); // account->password
+        private Dictionary<string, string> nicknames = new Dictionary<string, string>(); // account->nickname
+        private Dictionary<string, Socket> sockets = new Dictionary<string, Socket>(); // account->sockets
+
+        //构造好友列表
+        private Dictionary<string, List<string>> friends = new Dictionary<string, List<string>>(); // account->friends_account
+
+
+
+
+
 
         /// <summary>
         /// 事件——刷新已连接的客户端列表
@@ -87,7 +107,11 @@ namespace MessengerServer
                                 // 关闭远程连接，并释放所有资源
                                 Clients[i].Close();
                             }
-
+                            lock (sockets)
+                            {
+                                string key = sockets.FirstOrDefault(x => x.Value == Clients[i]).Key;
+                                sockets.Remove(key);
+                            }
                             // 从列表中删除
                             Clients.Remove(Clients[i]);
                             hasChanged = true;
@@ -99,6 +123,11 @@ namespace MessengerServer
                 {
                     // 触发更新客户端列表事件
                     RefreshClientList();
+                    /* foreach (var socket_send in Clients)
+                     {
+                         SendClientList(socket_send);
+                     }*/
+
                     hasChanged = false;
                 }
             }
@@ -117,12 +146,53 @@ namespace MessengerServer
             ReceiveState state = new ReceiveState(client_socket, RECEIVE_BUFF_SIZE);
             client_socket.BeginReceive(state.Buffer, 0, RECEIVE_BUFF_SIZE, SocketFlags.None, ReceiveCallback, state);
 
+
+            //模拟添加好友场景，模拟新登录一个人，所有在线的人都加他为好友  ---  可删除
+            foreach (var socket in Clients)
+            {
+                if (socket != client_socket)
+                {
+                    try
+                    {
+                        if(sockets.FirstOrDefault(x => x.Value == client_socket).Key is not null)
+                        { 
+                        friends[sockets.FirstOrDefault(x => x.Value == socket).Key].Add(sockets.FirstOrDefault(x => x.Value == client_socket)!.Key);
+                        }
+                    }
+                    finally
+                    {
+                    }
+                }
+            }
+
+
+
+            //添加好友后，向客户端发送事件
+            foreach (var socket_send in Clients)
+            {
+                SendClientFriendList(socket_send);
+            }
+
+
+
             // 修改连接客户端列表
             lock (clientListLock)
                 Clients.Add(client_socket);
 
+
+
+
             // 触发更新客户端列表事件
             RefreshClientList();
+
+
+
+
+            //触发更新client端的列表状态更新
+            /*            foreach (var socket_send in Clients)
+                        {
+                            SendClientList(socket_send);
+                        }*/
 
             // 异步等待新客户端连接
             server_socket.BeginAccept(AcceptCallback, null);
@@ -164,20 +234,107 @@ namespace MessengerServer
         /// <param name="len"></param>
         private void ProcessReceivedData(Socket socket, byte[] buffer, int len)
         {
-            // 发送数据到其他客户端
-            foreach (var socket_send in Clients)
+            try
             {
-                if (socket_send != socket)
+                string context = Encoding.Default.GetString(buffer, 0, len);
+                string[] args = context.Split("|");
+                string str_to_client = null;
+                switch (args[0])
                 {
-                    // 添加发送者的地址和端口号
-                    byte[] address = Encoding.Default.GetBytes(string.Format("[{0}] ", socket.RemoteEndPoint!.ToString()!));
-                    byte[] sendBuffer = new byte[address.Length + buffer.Length];
-                    address.CopyTo(sendBuffer, 0);
-                    buffer.CopyTo(sendBuffer, address.Length);
-                    socket_send.Send(sendBuffer, address.Length + len, SocketFlags.None);
+                    case "01":
+                        {
+                            str_to_client = on_reg(args);
+                            break;
+                        }
+                    case "03":
+                        {
+                            str_to_client = on_login(args, socket);
+                            break;
+                        }
+                    default:
+                        {
+                            foreach (var socket_send in Clients)
+                            {
+                                if (socket_send != socket)
+                                {
+                                    // 添加发送者的地址和端口号
+                                    byte[] address = Encoding.Default.GetBytes(string.Format("[{0}] ", socket.RemoteEndPoint!.ToString()!));
+                                    byte[] sendBuffer = new byte[address.Length + buffer.Length];
+                                    address.CopyTo(sendBuffer, 0);
+                                    buffer.CopyTo(sendBuffer, address.Length);
+                                    socket_send.Send(sendBuffer, address.Length + len, SocketFlags.None);
+                                }
+                            }
+                            //str_to_client = "context error!";
+                            break;
+                        }
+                }
+                if (str_to_client != null) // 将str_to_client发送给客户端
+                {
+                    byte[] buffer_tmp = Encoding.Default.GetBytes(str_to_client);
+                    socket.Send(buffer_tmp, 0, buffer_tmp.Length, SocketFlags.None);
+                }
+
+            }
+            catch  //客户端已下线
+            {
+                string account = null;
+                foreach (KeyValuePair<string, Socket> item in sockets)
+                {
+                    if (item.Value == socket)
+                    {
+                        account = item.Key;
+
+                    }
+                }
+                if (account != null)
+                {
+                    MessageBox.Show("账号:" + account + "已下线");
+                    sockets.Remove(account);
                 }
             }
+
+
+
+
+            // 发送数据到其他客户端
+
         }
+        //登录所需函数
+        private string on_reg(string[] args)
+        {
+            string account = string.Format("{0}", user_cnt++);
+            nicknames.Add(account, args[1]);
+            passwords.Add(account, args[2]);
+            friends.Add(account, new List<string>());
+            return "02|" + account;
+        }
+
+        private string on_login(string[] args, Socket socketWorker)
+        {
+            if (!nicknames.ContainsValue(args[1])) // 账号不存在
+            {
+                return "04|00";
+            }
+
+            if (passwords[nicknames.FirstOrDefault(x => x.Value == args[1]).Key] != args[2]) // 密码不正确
+            {
+                return "04|01";
+            }
+
+            if (sockets.ContainsKey(args[1])) // 用户已登录
+            {
+                return "04|02";
+            }
+
+            // 登录成功
+            sockets[args[1]] = socketWorker;
+            return "04|03";
+        }
+
+
+
+        //好友列表更新所需函数
 
         /// <summary>
         /// 函数——触发更新客户端列表事件
@@ -191,6 +348,92 @@ namespace MessengerServer
 
             // 触发事件
             RefreshClients(this, new RefreshClientsEventArgs() { Clients = clientList.ToArray() });
+
+
         }
+
+        /// <summary>
+        /// 向客户端发送当前在线人数
+        /// </summary>
+        /// <param name="socket">客户的socket文件</param>
+        /// <returns></returns>
+        private bool SendClientList(Socket socket)
+        {
+            try
+            {
+                List<string> clientList = new List<string>();
+                lock (clientListLock)
+                {
+                    if (Clients is not null)
+                    {
+                        foreach (var client in Clients)
+                        {
+
+                            if (client != socket)
+                            {
+                                clientList.Add(client.RemoteEndPoint!.ToString()!);
+                            }
+                        }
+                    }
+
+                }
+                //构造传递在线用户的数据格式
+                string sendClintlist = "15|";
+                if (clientList is not null && clientList.Count() != 0)
+                {
+                    foreach (string clientname in clientList)
+                    {
+                        sendClintlist += clientname + "|";
+                    }
+                    sendClintlist = sendClintlist.Substring(0, sendClintlist.Length - 1);
+                    byte[] buffer = Encoding.Default.GetBytes(sendClintlist);
+                    // 进行发送
+                    socket.Send(buffer, SocketFlags.None);
+                }
+                return true;
+            }
+            catch (Exception ex) when (ex is SocketException || ex is ObjectDisposedException)
+            {
+                // 连接已关闭或清理，返回false
+                return false;
+            }
+        }
+        /// <summary>
+        /// 将个人的好友信息发送到客户端
+        /// </summary>
+        /// <param name="socket"></param>
+        /// <returns></returns>
+        private bool SendClientFriendList(Socket socket)
+        {
+            try
+            {
+                List<string> flist;
+                lock (friends)
+                {
+                    flist = friends[nicknames.FirstOrDefault(z => z.Value == (sockets.FirstOrDefault(x => x.Value == socket).Key)).Key];
+                }
+                //构造传递用户好友的数据格式
+                string sendClintFriendlist = "14|";
+                if (flist is not null && flist.Count() != 0)
+                {
+                    foreach (string clientname in flist)
+                    {
+                        sendClintFriendlist += clientname + "|";
+                    }
+                    sendClintFriendlist = sendClintFriendlist.Substring(0, sendClintFriendlist.Length - 1);
+                    byte[] buffer = Encoding.Default.GetBytes(sendClintFriendlist);
+                    // 进行发送
+                    socket.Send(buffer, SocketFlags.None);
+                }
+                return true;
+            }
+            catch (Exception ex) when (ex is SocketException || ex is ObjectDisposedException)
+            {
+                // 连接已关闭或清理，返回false
+                return false;
+            }
+        }
+
+
     }
 }
