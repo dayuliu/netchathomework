@@ -143,6 +143,23 @@ namespace MessengerClinet
                                 Client_DataFriReceive(this, new ReceiveEventArgs() { Text = tt[i] });
                             }
                             break;
+                        case "05":
+                            string code = tt[1];
+                            switch (code)
+                            {
+                                case "1":
+                                    MessageBox.Show("好友不存在");
+                                    break;
+                                case "2":
+                                    MessageBox.Show("好友已下线");
+                                    break;
+                                case "3":
+                                    MessageBox.Show("发送失败");
+                                    break;
+                                default:
+                                    break;
+                            }
+                            break;
                         case "08":
                             MessageBox.Show(context);
                             break;
@@ -164,8 +181,7 @@ namespace MessengerClinet
             Invoke(() =>
             {
                 string[] args = context.Split("|");
-                this.current_friend.rtboxReceive.AppendText(args[1]);
-                this.rtboxReceive = this.current_friend.rtboxReceive;
+                this.current_friend.rtboxReceive.AppendText(args[1]+"\r\n");
             });
         }
 
@@ -179,7 +195,7 @@ namespace MessengerClinet
             Invoke(() =>
             {
                 string[] args = context.Split("|");
-                rtboxReceive.AppendText(args[1] + args[2]);
+                this.current_friend.rtboxReceive.AppendText(args[1] + args[2]+"\r\n");
             });
         }
 
@@ -249,7 +265,7 @@ namespace MessengerClinet
                 List<string> temp = new List<string>();
                 foreach (var item in listFriend.Items)
                 {
-                    string[] sitem = item.ToString().Split("|");  
+                    string[] sitem = item.ToString().Split("|");
                     temp.Add(sitem[0]);
 
                 }
@@ -258,6 +274,7 @@ namespace MessengerClinet
                 {
                     FriendItem pub = new FriendItem(name_nick[0], name_nick[1]);
                     listFriend.Items.Add(pub);
+                    groupBox1.Controls.Add(pub.rtboxReceive);
                 }
             });
         }
