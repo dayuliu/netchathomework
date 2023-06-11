@@ -112,54 +112,6 @@ namespace MessengerClinet
             });
         }
 
-        private void ReceiveCallback(IAsyncResult ia)
-        {
-            socketClient = ia.AsyncState as Socket;
-            if (socketClient == null)
-            {
-                return;
-            }
-            try
-            {
-
-                int bytesRead = socketClient.EndReceive(ia);  //接受消息成功并返回消息长度 
-                string context = Encoding.Default.GetString(buffer, 0, bytesRead);  //缓存解码为字符串
-                socketClient.BeginReceive(buffer, 0, buffer.Length, SocketFlags.None, new AsyncCallback(ReceiveCallback), socketClient);  //异步接受消息
-                MessageBox.Show(context);
-
-                Invoke(() =>
-                {
-                    string[] tt = context.Split("|");
-                    string action = tt[0];
-                    switch (action)
-                    {
-                        case "10":
-                            Client_AddConnectionReceive(this, new ReceiveEventArgs() { Text = tt[1] });
-                            break;
-                        case "14":
-                            int i = 1;
-                            for (; i < tt.Length; i++)
-                            {
-                                Client_DataFriReceive(this, new ReceiveEventArgs() { Text = tt[i] });
-                            }
-                            break;
-                        case "08":
-                            MessageBox.Show(context);
-                            break;
-                    }
-
-                });
-                // 处理消息
-            }
-            catch (Exception ex)  //异常捕获
-            {
-                MessageBox.Show(ex.ToString());
-            }
-        }
-
-
-
-
 
         private FriendItem findPubFriend()
         {
