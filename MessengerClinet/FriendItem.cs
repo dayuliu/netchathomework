@@ -43,7 +43,14 @@ namespace MessengerClinet
         {
             string res = "昵称:" + nickname;
             if (account != "")
+            {
+                res = "昵称:" + nickname;
                 res = res + "|" + account;
+
+            } else
+            {
+                res =  nickname;
+            }
 
             if (this.un_read_msg > 0)
                 res = res + "|未读消息:" + this.un_read_msg.ToString();

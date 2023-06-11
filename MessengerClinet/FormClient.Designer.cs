@@ -198,7 +198,6 @@
             listFriend.Name = "listFriend";
             listFriend.Size = new Size(322, 464);
             listFriend.TabIndex = 0;
-            listFriend.SelectedIndexChanged += listFriend_SelectedIndexChanged;
             listFriend.SelectedValueChanged += listFriend_SelectedValueChanged;
             // 
             // updnickname
