@@ -13,18 +13,20 @@ namespace MessengerClinet
         
             this.nickname = nickname;
             this.account = account;
-            this.rtboxReceive = new RichTextBox();
+            rtboxReceive = new RichTextBox();
             rtboxReceive.BackColor = Color.WhiteSmoke;
             rtboxReceive.BorderStyle = BorderStyle.None;
             rtboxReceive.ForeColor = Color.RoyalBlue;
             rtboxReceive.Location = new Point(17, 26);
             rtboxReceive.Margin = new Padding(4, 4, 4, 4);
-            rtboxReceive.Name = "rtboxReceive";
+            rtboxReceive.Name = account;
             rtboxReceive.ReadOnly = true;
+            rtboxReceive.Visible = false;
             rtboxReceive.ScrollBars = RichTextBoxScrollBars.Vertical;
             rtboxReceive.Size = new Size(456, 296);
             rtboxReceive.TabIndex = 1;
-            rtboxReceive.Text = "";
+            rtboxReceive.Text = "dajiahao\n";
+            rtboxReceive.Visible = false;
 
         }    
         public string nickname { get; set; }

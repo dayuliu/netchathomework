@@ -43,8 +43,11 @@ namespace MessengerClinet
 
             FriendItem pub_zone = new FriendItem("公共聊天室", "");
             listFriend.Items.Add(pub_zone);
+            groupBox1.Controls.Add(pub_zone.rtboxReceive);
+            pub_zone.rtboxReceive.Visible = true;
+            this.rtboxReceive.Visible = false;
             listFriend.SelectedIndex = 0;
-            current_friend = pub_zone;
+            this.current_friend = pub_zone;
 
 
             client.AddConnectionReceive += Client_AddConnectionReceive;
@@ -327,7 +330,6 @@ namespace MessengerClinet
 
             // 将自己发的字符串显示在接收区
 
-            RichTextBox tmp = this.current_friend.rtboxReceive;
             this.current_friend.rtboxReceive.AppendText(tboxSend.Text + "\r\n");
 
             // 设定本人发送内容回显格式
@@ -335,12 +337,9 @@ namespace MessengerClinet
             this.current_friend.rtboxReceive.Select(index, tboxSend.Text.Length);
             this.current_friend.rtboxReceive.SelectionColor = Color.YellowGreen;
             this.current_friend.rtboxReceive.SelectionAlignment = HorizontalAlignment.Right;
-            this.current_friend.rtboxReceive.Select(tmp.Text.Length, 0);
+            this.current_friend.rtboxReceive.Select(this.current_friend.rtboxReceive.Text.Length, 0);
             this.current_friend.rtboxReceive.ScrollToCaret();
 
-            this.rtboxReceive = this.current_friend.rtboxReceive;
-
-            return;
             Object friend = listFriend.SelectedItem;
             if (this.current_friend.account != "")
             {
@@ -385,7 +384,21 @@ namespace MessengerClinet
 
             FriendItem fi = (FriendItem)listFriend.SelectedItem;
 
+            if (fi == null || this.current_friend==null)
+            {
+                return;
+            }
+
+
+            if(fi.account == this.current_friend.account) {
+                return;
+            }
+
+            this.current_friend.rtboxReceive.Visible = false;
+
             this.current_friend = fi;
+            this.current_friend.rtboxReceive.Visible = true;
+
 
             // Get the currently selected item in the ListBox.
             string curItem = listFriend.SelectedItem.ToString();
