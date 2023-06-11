@@ -58,9 +58,12 @@ namespace MessengerClinet
             /* // 注册在线人员事件
              client.DataOnlineReceive += Client_DataOnlineReceive;*/
 
-            // 私聊事件
-            client.DataPrivateReceive += Client_DataPrivateReceive;
+            // 发送私聊反馈事件
+            client.DataPrivate += Client_DataPrivate;
 
+            // 私聊消息接收事件
+            client.DataPrivateReceive += Client_DataPrivateReceive;
+           
             // 群聊事件
             client.DataBroadcastReceive += Client_DataBroadcastReceive;
 
@@ -94,6 +97,23 @@ namespace MessengerClinet
                         for (; i < tt.Length; i++)
                         {
                             Client_DataFriReceive(this, new ReceiveEventArgs() { Text = tt[i] });
+                        }
+                        break;
+                    case "05":
+                        string code = tt[1];
+                        switch (code)
+                        {
+                            case "1":
+                                MessageBox.Show("好友不存在");
+                                break;
+                            case "2":
+                                MessageBox.Show("好友已下线");
+                                break;
+                            case "3":
+                                MessageBox.Show("发送失败");
+                                break;
+                            default:
+                                break;
                         }
                         break;
                     case "08":
@@ -143,23 +163,6 @@ namespace MessengerClinet
                                 Client_DataFriReceive(this, new ReceiveEventArgs() { Text = tt[i] });
                             }
                             break;
-                        case "05":
-                            string code = tt[1];
-                            switch (code)
-                            {
-                                case "1":
-                                    MessageBox.Show("好友不存在");
-                                    break;
-                                case "2":
-                                    MessageBox.Show("好友已下线");
-                                    break;
-                                case "3":
-                                    MessageBox.Show("发送失败");
-                                    break;
-                                default:
-                                    break;
-                            }
-                            break;
                         case "08":
                             MessageBox.Show(context);
                             break;
@@ -186,7 +189,7 @@ namespace MessengerClinet
         }
 
         /**
-         * 私聊
+         * 私聊接收消息
          */
         private void Client_DataPrivateReceive(object? sender, SocketCommon.ReceiveEventArgs e)
         {
@@ -196,6 +199,32 @@ namespace MessengerClinet
             {
                 string[] args = context.Split("|");
                 this.current_friend.rtboxReceive.AppendText(args[1] + args[2]+"\r\n");
+            });
+        }
+
+        /**
+         * 私聊
+         */
+        private void Client_DataPrivate(object? sender, SocketCommon.ReceiveEventArgs e)
+        {
+            string code = e.Text;
+            // 显示接收到的数据
+            Invoke(() =>
+            {
+                switch (code)
+                {
+                    case "1":
+                        MessageBox.Show("好友不存在");
+                        break;
+                    case "2":
+                        MessageBox.Show("好友已下线");
+                        break;
+                    case "3":
+                        MessageBox.Show("发送失败");
+                        break;
+                    default:
+                        break;
+                }
             });
         }
 
