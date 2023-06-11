@@ -21,7 +21,7 @@ namespace MessengerClinet
 
         public override string ToString()
         {
-            return nickname;
+            return nickname+"|"+account;
         }
     }
 }

@@ -41,7 +41,7 @@ namespace MessengerClinet
             clientAccount = account;
             InitializeComponent();
 
-            FriendItem pub_zone = new FriendItem("公共聊天室", "");
+            FriendItem pub_zone = new FriendItem("公共聊天室", "公共聊天室");
             listFriend.Items.Add(pub_zone);
             listFriend.SelectedIndex = 0;
             current_friend = pub_zone;
@@ -252,7 +252,8 @@ namespace MessengerClinet
                 string[] name_nick = e.Text.Split("|");
                 if (!temp.Contains(e.Text))
                 {
-                    listFriend.Items.Add(name_nick[0]+"|"+ name_nick[1]);
+                    FriendItem pub = new FriendItem(name_nick[0], name_nick[1]);
+                    listFriend.Items.Add(pub);
                 }
             });
         }
