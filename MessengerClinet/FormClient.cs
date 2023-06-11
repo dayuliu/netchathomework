@@ -138,7 +138,7 @@ namespace MessengerClinet
             {
                 string[] args = context.Split("|");
 
-                FriendItem tmp = this.findFriend(args[1]); // 找到发送者账号
+                FriendItem tmp = this.   findFriend(args[1]); // 找到发送者账号
                 if (tmp != null)
                 {
 
