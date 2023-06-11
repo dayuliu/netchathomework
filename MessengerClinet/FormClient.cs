@@ -136,7 +136,25 @@ namespace MessengerClinet
             Invoke(() =>
             {
                 string[] args = context.Split("|");
-                this.findPubFriend().rtboxReceive.AppendText(args[1] + "\r\n");
+
+                FriendItem tmp = this.findPubFriend();
+
+                if (tmp != null)
+                {
+
+                    if (this.current_friend.account != tmp.account)
+                    {
+                        int index = this.listFriend.Items.IndexOf(tmp);
+                        tmp.un_read_msg = tmp.un_read_msg + 1;
+
+                        this.listFriend.Items[index] = tmp;
+
+                    }
+                    tmp.rtboxReceive.AppendText(args[1] + "\r\n");
+
+                }
+
+
             });
         }
 
@@ -182,8 +200,6 @@ namespace MessengerClinet
 
                     if (this.current_friend.account != tmp.account)
                     {
-
-
                         int index = this.listFriend.Items.IndexOf(tmp);
                         tmp.un_read_msg = tmp.un_read_msg + 1;
 
@@ -429,13 +445,9 @@ namespace MessengerClinet
         /// <param name="e"></param>
         private void btnClear_Click(object sender, EventArgs e)
         {
-            rtboxReceive.Clear();
+            this.current_friend.rtboxReceive.Clear();
         }
 
-        private void listFriend_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
 
         private void btnAddFriend_Click(object sender, EventArgs e)
         {
