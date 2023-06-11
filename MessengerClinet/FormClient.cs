@@ -161,7 +161,8 @@ namespace MessengerClinet
             Invoke(() =>
             {
                 string[] args = context.Split("|");
-                rtboxReceive.AppendText(args[1]);
+                this.current_friend.rtboxReceive.AppendText(args[1]);
+                this.rtboxReceive = this.current_friend.rtboxReceive;
             });
         }
 
@@ -326,18 +327,19 @@ namespace MessengerClinet
             // 将自己发的字符串显示在接收区
 
             RichTextBox tmp = this.current_friend.rtboxReceive;
-            tmp.AppendText(tboxSend.Text + "\r\n");
+            this.current_friend.rtboxReceive.AppendText(tboxSend.Text + "\r\n");
 
             // 设定本人发送内容回显格式
-            int index = tmp.Text.LastIndexOf(tboxSend.Text);
-            tmp.Select(index, tboxSend.Text.Length);
-            tmp.SelectionColor = Color.YellowGreen;
-            tmp.SelectionAlignment = HorizontalAlignment.Right;
-            tmp.Select(tmp.Text.Length, 0);
-            tmp.ScrollToCaret();
+            int index = this.current_friend.rtboxReceive.Text.LastIndexOf(tboxSend.Text);
+            this.current_friend.rtboxReceive.Select(index, tboxSend.Text.Length);
+            this.current_friend.rtboxReceive.SelectionColor = Color.YellowGreen;
+            this.current_friend.rtboxReceive.SelectionAlignment = HorizontalAlignment.Right;
+            this.current_friend.rtboxReceive.Select(tmp.Text.Length, 0);
+            this.current_friend.rtboxReceive.ScrollToCaret();
 
-            rtboxReceive = tmp;
-            rtboxReceive.Show();
+            this.rtboxReceive = this.current_friend.rtboxReceive;
+
+            return;
             Object friend = listFriend.SelectedItem;
             if (this.current_friend.account != "")
             {
