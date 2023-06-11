@@ -30,8 +30,9 @@ namespace MessengerClinet
         /// <summary>
         /// 构造函数 a
         /// </summary>
-        public FormClient(string account, Client c)
+        public FormClient(string account, string nickname, Client c)
         {
+
 
             client = c;
 
@@ -45,7 +46,10 @@ namespace MessengerClinet
             clientAccount = account;
             InitializeComponent();
 
-            FriendItem pub_zone = new FriendItem("公共聊天室", "公共聊天室");
+
+            this.input_nickname.Text = nickname;
+
+            FriendItem pub_zone = new FriendItem("公共聊天室", "");
             listFriend.Items.Add(pub_zone);
             groupBox1.Controls.Add(pub_zone.rtboxReceive);
             pub_zone.rtboxReceive.Visible = true;
@@ -77,8 +81,31 @@ namespace MessengerClinet
             // 好友结果返回
             client.DataapplyFriendoutput += Client_DataapplyFriendoutput;
 
+            // 修改昵称事件
+            client.DataUpdNickNameReceive += Client_DataUpdNickNameReceive;
+
+
+
             client.Send("13|");
 
+        }
+
+        private void Client_DataUpdNickNameReceive(object? sender, ReceiveEventArgs e)
+        {
+            string context = e.Text;
+            // 显示接收到的数据
+            Invoke(() =>
+            {
+                if (context == "01")
+                {
+                    MessageBox.Show("修改成功");
+                }
+                else
+                {
+                    MessageBox.Show("修改失败");
+                }
+
+            });
         }
 
 
@@ -163,12 +190,12 @@ namespace MessengerClinet
 
                     if (this.current_friend.account != tmp.account)
                     {
-                       
+
 
                         int index = this.listFriend.Items.IndexOf(tmp);
                         tmp.un_read_msg = tmp.un_read_msg + 1;
 
-                        this.listFriend.Items[index] = tmp ;
+                        this.listFriend.Items[index] = tmp;
 
                     }
                     tmp.rtboxReceive.AppendText(args[1] + args[2] + "\r\n");
@@ -323,8 +350,9 @@ namespace MessengerClinet
                 List<string> temp = new List<string>();
                 foreach (var item in listFriend.Items)
                 {
-                    string[] sitem = item.ToString().Split("|");
-                    temp.Add(sitem[0]);
+
+                    FriendItem fi = (FriendItem)item;
+                    temp.Add(fi.account);
 
                 }
                 string[] name_nick = e.Text.Split("|");
@@ -481,6 +509,12 @@ namespace MessengerClinet
 
 
             this.listFriend.Items[index] = this.current_friend;
+        }
+
+        private void updnickname_Click(object sender, EventArgs e)
+        {
+            string nick_name = input_nickname.Text;
+            this.client.Send("11|" + nick_name);
         }
     }
 }

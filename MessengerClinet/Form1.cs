@@ -204,7 +204,7 @@ namespace ChatClient
 
             // 注册数据接收事件
             client.DataReceive -= Client_DataReceive;
-            Form formClient = new FormClient(textBox_nickname_reg.Text, this.client);
+            Form formClient = new FormClient(textBox_nickname_reg.Text,args[2], this.client);
             formClient.Show();
 
         }
