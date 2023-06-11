@@ -144,7 +144,7 @@ namespace MessengerClinet
                             MessageBox.Show(context);
                             break;
                     }
-                   
+
                 });
                 // 处理消息
             }
@@ -246,13 +246,14 @@ namespace MessengerClinet
                 List<string> temp = new List<string>();
                 foreach (var item in listFriend.Items)
                 {
-                    string[] sitem = item.ToString().Split("|");
+                    string[] sitem = item.ToString().Split("|");  
                     temp.Add(sitem[0]);
 
                 }
+                string[] name_nick = e.Text.Split("|");
                 if (!temp.Contains(e.Text))
                 {
-                    listFriend.Items.Add(e.Text);
+                    listFriend.Items.Add(name_nick[0]+"|"+ name_nick[1]);
                 }
             });
         }

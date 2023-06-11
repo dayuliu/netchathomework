@@ -118,3 +118,23 @@ D:\求学路\课件\研一下\AI一级工程实践_课程概述与语言基础�
 D:\求学路\课件\研一下\AI一级工程实践_课程概述与语言基础实践\作业\netchathomework\MessengerServer\obj\Debug\net6.0-windows\MessengerServer.pdb
 D:\求学路\课件\研一下\AI一级工程实践_课程概述与语言基础实践\作业\netchathomework\MessengerServer\obj\Debug\net6.0-windows\MessengerServer.genruntimeconfig.cache
 D:\求学路\课件\研一下\AI一级工程实践_课程概述与语言基础实践\作业\netchathomework\MessengerServer\obj\Debug\net6.0-windows\ref\MessengerServer.dll
+D:\workspace\新建文件夹\git\netchathomework\MessengerServer\bin\Debug\net6.0-windows\MessengerServer.exe
+D:\workspace\新建文件夹\git\netchathomework\MessengerServer\bin\Debug\net6.0-windows\MessengerServer.deps.json
+D:\workspace\新建文件夹\git\netchathomework\MessengerServer\bin\Debug\net6.0-windows\MessengerServer.runtimeconfig.json
+D:\workspace\新建文件夹\git\netchathomework\MessengerServer\bin\Debug\net6.0-windows\MessengerServer.dll
+D:\workspace\新建文件夹\git\netchathomework\MessengerServer\bin\Debug\net6.0-windows\MessengerServer.pdb
+D:\workspace\新建文件夹\git\netchathomework\MessengerServer\bin\Debug\net6.0-windows\SocketCommon.dll
+D:\workspace\新建文件夹\git\netchathomework\MessengerServer\bin\Debug\net6.0-windows\SocketCommon.pdb
+D:\workspace\新建文件夹\git\netchathomework\MessengerServer\obj\Debug\net6.0-windows\MessengerServer.csproj.AssemblyReference.cache
+D:\workspace\新建文件夹\git\netchathomework\MessengerServer\obj\Debug\net6.0-windows\MessengerServer.FormServer.resources
+D:\workspace\新建文件夹\git\netchathomework\MessengerServer\obj\Debug\net6.0-windows\MessengerServer.csproj.GenerateResource.cache
+D:\workspace\新建文件夹\git\netchathomework\MessengerServer\obj\Debug\net6.0-windows\MessengerServer.GeneratedMSBuildEditorConfig.editorconfig
+D:\workspace\新建文件夹\git\netchathomework\MessengerServer\obj\Debug\net6.0-windows\MessengerServer.AssemblyInfoInputs.cache
+D:\workspace\新建文件夹\git\netchathomework\MessengerServer\obj\Debug\net6.0-windows\MessengerServer.AssemblyInfo.cs
+D:\workspace\新建文件夹\git\netchathomework\MessengerServer\obj\Debug\net6.0-windows\MessengerServer.csproj.CoreCompileInputs.cache
+D:\workspace\新建文件夹\git\netchathomework\MessengerServer\obj\Debug\net6.0-windows\MessengerServer.csproj.CopyComplete
+D:\workspace\新建文件夹\git\netchathomework\MessengerServer\obj\Debug\net6.0-windows\MessengerServer.dll
+D:\workspace\新建文件夹\git\netchathomework\MessengerServer\obj\Debug\net6.0-windows\refint\MessengerServer.dll
+D:\workspace\新建文件夹\git\netchathomework\MessengerServer\obj\Debug\net6.0-windows\MessengerServer.pdb
+D:\workspace\新建文件夹\git\netchathomework\MessengerServer\obj\Debug\net6.0-windows\MessengerServer.genruntimeconfig.cache
+D:\workspace\新建文件夹\git\netchathomework\MessengerServer\obj\Debug\net6.0-windows\ref\MessengerServer.dll
