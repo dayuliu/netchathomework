@@ -35,7 +35,7 @@ namespace MessengerClinet
             client.RefreshConnectStatus += Client_RefreshConnectStatus;
 
             // 注册数据接收事件
-            client.DataReceive += Client_DataReceive;
+           // client.DataReceive += Client_DataReceive;
 
 
             clientAccount = account;
@@ -96,12 +96,6 @@ namespace MessengerClinet
                             Client_DataFriReceive(this, new ReceiveEventArgs() { Text = tt[i] });
                         }
                         break;
-                    case "08":
-                        MessageBox.Show(context);
-                        break;
-                    default:
-                        MessageBox.Show(context);
-                        break;
 
                 }
 
@@ -111,6 +105,17 @@ namespace MessengerClinet
 
         }
 
+
+        private void Client_DataBroadcastReceive(object? sender, SocketCommon.ReceiveEventArgs e)
+        {
+            string context = e.Text;
+            // 显示接收到的数据
+            Invoke(() =>
+            {
+                string[] args = context.Split("|");
+                this.findPubFriend().rtboxReceive.AppendText(args[1]+"\r\n");
+            });
+        }
 
         private void ReceiveCallback(IAsyncResult ia)
         {
@@ -174,15 +179,20 @@ namespace MessengerClinet
             }
         }
 
-        private void Client_DataBroadcastReceive(object? sender, SocketCommon.ReceiveEventArgs e)
+
+
+
+
+        private FriendItem findPubFriend()
         {
-            string context = e.Text;
-            // 显示接收到的数据
-            Invoke(() =>
+            foreach (var item in this.listFriend.Items)
             {
-                string[] args = context.Split("|");
-                this.current_friend.rtboxReceive.AppendText(args[1]+"\r\n");
-            });
+                FriendItem fi = (FriendItem)item;
+                if (fi.account == "") {
+                    return fi;
+                }
+            }
+            throw new Exception("系统错误");
         }
 
         /**
@@ -417,15 +427,6 @@ namespace MessengerClinet
             this.current_friend = fi;
             this.current_friend.rtboxReceive.Visible = true;
 
-
-            // Get the currently selected item in the ListBox.
-            string curItem = listFriend.SelectedItem.ToString();
-
-            // Find the string in ListBox2.
-            int index = listFriend.FindString(curItem);
-            // If the item was not found in ListBox 2 display a message box, otherwise select it in ListBox2.
-
-            MessageBox.Show(curItem);
         }
     }
 }
