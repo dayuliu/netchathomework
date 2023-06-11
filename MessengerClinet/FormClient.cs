@@ -245,6 +245,12 @@ namespace MessengerClinet
                     case "02":
                         MessageBox.Show("已经添加过");
                         break;
+                    case "03":
+                        MessageBox.Show("对方未在线");
+                        break;
+                    case "04":
+                        MessageBox.Show("对方未同意");
+                        break;
                     default:
                         MessageBox.Show("未知错误");
                         break;
