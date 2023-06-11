@@ -467,7 +467,7 @@ namespace MessengerClinet
             }
             else
             {
-                message = "07|" + message;
+                message = "07|" + clientAccount + "|" + message;
             }
 
             // 发送字符串到服务器

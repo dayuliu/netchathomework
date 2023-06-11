@@ -389,16 +389,21 @@ namespace MessengerServer
         }
 
         /**
-         * 07|message
+         * 07|fromAccount|message
          */
         private string on_broadcast(string[] args, Socket socket)
         {
-            string msg = args[1];
+            string fromAccount = args[1];
+            string msg = args[2];
+            string nickname = fromAccount;
+            if (nicknames.ContainsKey(fromAccount))
+            {
+                nickname = nicknames[fromAccount];
+            }
+
             // sockets
             foreach (var item in sockets)
             {
-                string account = item.Key;
-                string nickname = nicknames[account];
                 Socket socket_send = item.Value;
 
                 try
