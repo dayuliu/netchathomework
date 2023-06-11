@@ -95,7 +95,7 @@ namespace MessengerServer
                 {
                     for (int i = 0; i < Clients.Count; i++)
                     {
-                       
+
                         if (!Tools.IsSocketConnected(Clients[i]))
                         {
                             try
@@ -288,7 +288,7 @@ namespace MessengerServer
                             break;
                         }
                 }
-                if (str_to_client != null && str_to_client!= "") // 将str_to_client发送给客户端
+                if (str_to_client != null && str_to_client != "") // 将str_to_client发送给客户端
                 {
                     byte[] buffer_tmp = Encoding.Default.GetBytes(str_to_client);
                     socket.Send(buffer_tmp, 0, buffer_tmp.Length, SocketFlags.None);
@@ -403,7 +403,7 @@ namespace MessengerServer
             return "07|0";
         }
 
-       
+
         //登录所需函数
         private string on_reg(string[] args)
         {
@@ -448,15 +448,32 @@ namespace MessengerServer
             {
                 return "10|00";
             }
-            var currentUserPir = sockets.First(kv => kv.Value == socketWorker);
+           //当前用户的信息
+            var currentUserPir = sockets.FirstOrDefault(kv => kv.Value == socketWorker);
+            //查看是否在线
+            var userSocket = sockets.FirstOrDefault(kv => kv.Key == args[1]);
+            if (userSocket.Key == "null" || userSocket.Key == null)
+            {
+                return "10|03";
+            }
+            //不能添加自己
+            if (args[1] == currentUserPir.Key) {
+                return "10|05";
+            }
+
+            //查看是否重复
             var currentUserId = currentUserPir.Key;
-            if (currentUserId == null)
-                return "10|00";
             var currentFriends = friends[currentUserId];
             if (currentFriends.Contains(args[1]))
             {
                 return "10|02";
             }
+
+            //增加申请模块
+            
+            
+            //
+
             currentFriends.Add(args[1]);
             friends[currentUserId] = currentFriends;
 
@@ -530,6 +547,13 @@ namespace MessengerServer
             }
         }
 
+        private void isaddFriend(Socket socket,string name) {
+            byte[] buffer = Encoding.Default.GetBytes("15|"+name);
+            // 进行发送
+            socket.Send(buffer, 0, buffer.Length, SocketFlags.None);
+     
+
+        }
 
     }
 }

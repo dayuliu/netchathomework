@@ -189,6 +189,8 @@ namespace MessengerClinet
             });
         }
 
+        
+
         /**
          * 私聊接收消息
          */
@@ -280,10 +282,27 @@ namespace MessengerClinet
                     case "04":
                         MessageBox.Show("对方未同意");
                         break;
+                    case "05":
+                        MessageBox.Show("不能添加自己");
+                        break;
                     default:
                         MessageBox.Show("未知错误");
                         break;
                 }
+            });
+        }
+
+        /**
+         * 接受好友请求
+         * **/
+
+        private void Client_DataApplyFriend(object? sender, SocketCommon.ReceiveEventArgs e)
+        {
+            string context = e.Text;
+            // 显示接收到的数据
+            Invoke(() =>
+            {
+                MessageBox.Show(e.Text+"__用户申请加为好友，是否同意"); ;
             });
         }
 
