@@ -189,7 +189,11 @@ namespace MessengerClinet
             {
                 DataPrivateReceive(this, new ReceiveEventArgs() { Text = TextFormat });
             }
-
+            // 群聊反馈消息事件
+            else if (tt[0] == "07")
+            {
+            }
+            // 群聊接受消息事件
             else if (tt[0] == "08")
             {
                 DataBroadcastReceive(this, new ReceiveEventArgs() { Text = TextFormat });
@@ -205,7 +209,6 @@ namespace MessengerClinet
                 // 触发数据接收事件
                 DataReceive(this, new ReceiveEventArgs() { Text = Encoding.Default.GetString(buffer, 0, len) });
             }
-           
 
         }
     }
