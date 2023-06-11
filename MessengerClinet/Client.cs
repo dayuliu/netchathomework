@@ -41,6 +41,9 @@ namespace MessengerClinet
         public event EventHandler<ReceiveEventArgs> DataBroadcastReceive = default!;
 
 
+        public event EventHandler<ReceiveEventArgs> DataUpdNickNameReceive = default!;
+
+
         /*        /// <summary>
                 /// 事件——收到当前在线人员数据
                 /// </summary>
@@ -202,6 +205,9 @@ namespace MessengerClinet
             {
 
                 DataApplyFriend(this, new ReceiveEventArgs() { Text = tt[1] });
+            } else if (tt[0] == "12")
+            {
+                DataUpdNickNameReceive(this, new ReceiveEventArgs() { Text = tt[1] });
             }
 
             else

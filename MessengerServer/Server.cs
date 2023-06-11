@@ -263,9 +263,10 @@ namespace MessengerServer
                             break;
                         }
 
-                    case "13":
+                    case "11":
                         {
-                            SendClientFriendList(socket);
+                            str_to_client = on_update_nickname(args, socket);
+
                             break;
                         }
 
@@ -438,9 +439,28 @@ namespace MessengerServer
 
             // 登录成功
             sockets[args[1]] = socketWorker;
-            return "04|0";
+            string nickname = nicknames[args[1]];
+            return "04|0|"+nickname;
         }
 
+
+
+        private string on_update_nickname(string[] args, Socket socketWorker)
+        {
+
+            //当前用户的信息
+            var currentUserPir = sockets.FirstOrDefault(kv => kv.Value == socketWorker);
+            //查看是否在线
+            var userSocket = sockets.FirstOrDefault(kv => kv.Key == currentUserPir.Key);
+            if (userSocket.Key == "null" || userSocket.Key == null)
+            {
+                return "12|00";
+            }
+
+            nicknames[currentUserPir.Key] = args[1];
+
+            return "12|01";
+        }
 
         private string on_add_connection(string[] args, Socket socketWorker)
         {
