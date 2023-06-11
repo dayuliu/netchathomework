@@ -126,7 +126,6 @@ namespace MessengerClinet
                 switch (action)
                 {
                     default:
-                        MessageBox.Show(context);
                         break;
                 }
 
