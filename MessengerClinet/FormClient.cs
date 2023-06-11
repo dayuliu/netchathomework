@@ -143,6 +143,23 @@ namespace MessengerClinet
                                 Client_DataFriReceive(this, new ReceiveEventArgs() { Text = tt[i] });
                             }
                             break;
+                        case "05":
+                            string code = tt[1];
+                            switch (code)
+                            {
+                                case "1":
+                                    MessageBox.Show("好友不存在");
+                                    break;
+                                case "2":
+                                    MessageBox.Show("好友已下线");
+                                    break;
+                                case "3":
+                                    MessageBox.Show("发送失败");
+                                    break;
+                                default:
+                                    break;
+                            }
+                            break;
                         case "08":
                             MessageBox.Show(context);
                             break;

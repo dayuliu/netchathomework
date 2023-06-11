@@ -24,8 +24,6 @@ namespace MessengerServer
         int user_cnt = 0; // 当前用户数，用于生成账号
         private Dictionary<string, string> passwords = new Dictionary<string, string>(); // account->password
         private Dictionary<string, string> nicknames = new Dictionary<string, string>(); // account->nickname
-
-
         private Dictionary<string, Socket> sockets = new Dictionary<string, Socket>(); // account->sockets
 
         //构造好友列表
@@ -325,8 +323,9 @@ namespace MessengerServer
         /**
          * 私聊 05|fromAcount|destAccount|message
          * 0:发送成功
-         * 1:好友不存在或者已经下线
-         * 2:发送失败
+         * 1:好友不存在
+         * 2:好友已下线
+         * 3:发送失败
          */
         private string on_private_chat(string[] args, Socket socket)
         {
@@ -334,29 +333,39 @@ namespace MessengerServer
             string fromAccount = args[1];
             // 目标账号 
             string destAccount = args[2];
-            byte[] message = Encoding.Default.GetBytes(args[3]);
+            string msg = args[3];
 
             // 目标账号不存在则返回 05|1
             if (!nicknames.ContainsKey(destAccount))
             {
                 return "05|1";
             }
-
+            string nickname = "";
+            if (!nicknames.ContainsKey(fromAccount))
+            {
+                nickname = fromAccount;
+            } else
+            {
+                nickname = nicknames[fromAccount];
+            }
             try
             {
                 Socket dest_socket = sockets[destAccount];
-                // 添加发送者的地址和端口号
-                byte[] address = Encoding.Default.GetBytes(string.Format("06|{0}|[{1}] ", fromAccount,socket.RemoteEndPoint!.ToString()!));
-                int len = address.Length + message.Length;
-                byte[] sendBuffer = new byte[address.Length + message.Length];
-                address.CopyTo(sendBuffer, 0);
-                message.CopyTo(sendBuffer, address.Length);
-                dest_socket.Send(sendBuffer, len, SocketFlags.None);
+                if (dest_socket.Connected)
+                {
+                    // 添加发送者的地址和端口号
+                    byte[] sendBuffer = Encoding.Default.GetBytes(string.Format("06|{0}|[{1}-{2}]:{3} ", fromAccount, nickname, socket.RemoteEndPoint!.ToString()!, msg));
+                    dest_socket.Send(sendBuffer, sendBuffer.Length, SocketFlags.None);
+                } else
+                {
+                    return "05|2";
+                }
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
-                return "05|2";
+                Console.WriteLine(ex.Message);
+                //  MessageBox.Show(ex.Message);
+                return "05|3";
             }
             return "05|0";
         }
@@ -366,28 +375,31 @@ namespace MessengerServer
          */
         private string on_broadcast(string[] args, Socket socket)
         {
-            // 目标账号 
-            byte[] message = Encoding.Default.GetBytes(args[1]);
-            foreach (var socket_send in Clients)
+            string msg = args[1];
+            // sockets
+            foreach (var item in sockets)
             {
-                // if (socket_send != socket)
-                if (true)
+                string account = item.Key;
+                string nickname = nicknames[account];
+                Socket socket_send = item.Value;
+
+                try
                 {
-                    try
+                    // 添加发送者的地址和端口号
+                    // if (true)
+                    if (socket_send != socket && socket_send.Connected)
                     {
-                        // 添加发送者的地址和端口号
-                        byte[] address = Encoding.Default.GetBytes(string.Format("08|[{0}] ", socket.RemoteEndPoint!.ToString()!));
-                        int len = address.Length + message.Length;
-                        byte[] sendBuffer = new byte[len];
-                        address.CopyTo(sendBuffer, 0);
-                        message.CopyTo(sendBuffer, address.Length);
-                        socket_send.Send(sendBuffer, len, SocketFlags.None);
-                    } catch (Exception e)
-                    {
-                        MessageBox.Show(e.Message);
+                        byte[] sendBuffer = Encoding.Default.GetBytes(string.Format("08|[{0}-{1}]:{2}", nickname, socket.RemoteEndPoint!.ToString()!, msg));
+                        socket_send.Send(sendBuffer, sendBuffer.Length, SocketFlags.None);
                     }
                 }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                    // MessageBox.Show(e.Message);
+                }
             }
+
             return "07|0";
         }
 
