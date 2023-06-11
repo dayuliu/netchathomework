@@ -155,9 +155,11 @@ namespace MessengerClinet
 
                     if (this.current_friend.account != tmp.account)
                     {
-                        tmp.un_read_msg = tmp.un_read_msg+1;
 
-                        this.listFriend.Refresh();
+                        int index = this.listFriend.Items.IndexOf(tmp);
+                        tmp.un_read_msg = tmp.un_read_msg + 1;
+
+                        this.listFriend.Items[index] = tmp ;
 
                     }
                     tmp.rtboxReceive.AppendText(args[1] + args[2] + "\r\n");
@@ -409,8 +411,12 @@ namespace MessengerClinet
 
             this.current_friend = fi;
             this.current_friend.rtboxReceive.Visible = true;
+
+            int index = this.listFriend.Items.IndexOf(current_friend);
             this.current_friend.un_read_msg = 0;
 
+
+            this.listFriend.Items[index] = this.current_friend;
         }
     }
 }
