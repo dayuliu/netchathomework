@@ -64,7 +64,7 @@ namespace MessengerClinet
 
             // 私聊消息接收事件
             client.DataPrivateReceive += Client_DataPrivateReceive;
-           
+
             // 群聊事件
             client.DataBroadcastReceive += Client_DataBroadcastReceive;
 
@@ -109,7 +109,7 @@ namespace MessengerClinet
             Invoke(() =>
             {
                 string[] args = context.Split("|");
-                this.findPubFriend().rtboxReceive.AppendText(args[1]+"\r\n");
+                this.findPubFriend().rtboxReceive.AppendText(args[1] + "\r\n");
             });
         }
 
@@ -119,14 +119,15 @@ namespace MessengerClinet
             foreach (var item in this.listFriend.Items)
             {
                 FriendItem fi = (FriendItem)item;
-                if (fi.account == "") {
+                if (fi.account == "")
+                {
                     return fi;
                 }
             }
             throw new Exception("系统错误");
         }
 
-        
+
 
         /**
          * 私聊接收消息
@@ -138,7 +139,7 @@ namespace MessengerClinet
             Invoke(() =>
             {
                 string[] args = context.Split("|");
-                this.current_friend.rtboxReceive.AppendText(args[1] + args[2]+"\r\n");
+                this.current_friend.rtboxReceive.AppendText(args[1] + args[2] + "\r\n");
             });
         }
 
@@ -239,7 +240,7 @@ namespace MessengerClinet
             // 显示接收到的数据
             Invoke(() =>
             {
-                MessageBox.Show(e.Text+"__用户申请加为好友，是否同意"); ;
+                MessageBox.Show(e.Text + "__用户申请加为好友，是否同意"); ;
             });
         }
 
@@ -394,13 +395,14 @@ namespace MessengerClinet
 
             FriendItem fi = (FriendItem)listFriend.SelectedItem;
 
-            if (fi == null || this.current_friend==null)
+            if (fi == null || this.current_friend == null)
             {
                 return;
             }
 
 
-            if(fi.account == this.current_friend.account) {
+            if (fi.account == this.current_friend.account)
+            {
                 return;
             }
 
