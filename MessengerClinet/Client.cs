@@ -196,7 +196,6 @@ namespace MessengerClinet
                 // 触发数据接收事件
                 DataReceive(this, new ReceiveEventArgs() { Text = Encoding.Default.GetString(buffer, 0, len) });
             }
-           
 
         }
     }

@@ -35,7 +35,7 @@ namespace MessengerClinet
             client.RefreshConnectStatus += Client_RefreshConnectStatus;
 
             // 注册数据接收事件
-           // client.DataReceive += Client_DataReceive;
+            client.DataReceive += Client_DataReceive;
 
 
             clientAccount = account;
@@ -89,43 +89,9 @@ namespace MessengerClinet
                 string action = tt[0];
                 switch (action)
                 {
-                    case "10":
-                        Client_AddConnectionReceive(this, new ReceiveEventArgs() { Text = tt[1] });
-                        break;
-                    case "14":
-                        int i = 1;
-                        for (; i < tt.Length; i++)
-                        {
-                            Client_DataFriReceive(this, new ReceiveEventArgs() { Text = tt[i] });
-                        }
-                        break;
-<<<<<<< HEAD
-=======
-                    case "05":
-                        string code = tt[1];
-                        switch (code)
-                        {
-                            case "1":
-                                MessageBox.Show("好友不存在");
-                                break;
-                            case "2":
-                                MessageBox.Show("好友已下线");
-                                break;
-                            case "3":
-                                MessageBox.Show("发送失败");
-                                break;
-                            default:
-                                break;
-                        }
-                        break;
-                    case "08":
-                        MessageBox.Show(context);
-                        break;
                     default:
                         MessageBox.Show(context);
                         break;
->>>>>>> f5a7978df546198600e69caebd0fa38576be405d
-
                 }
 
             });
