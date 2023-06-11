@@ -245,7 +245,7 @@ namespace MessengerClinet
                 List<string> temp = new List<string>();
                 foreach (var item in listFriend.Items)
                 {
-                    string[] sitem = item.ToString().Split("|");
+                    string[] sitem = item.ToString().Split("|");  
                     temp.Add(sitem[0]);
 
                 }
