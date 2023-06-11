@@ -10,3 +10,15 @@ D:\liugangzuoye\code\netchathomework\SocketCommon\obj\Debug\net6.0\SocketCommon.
 D:\liugangzuoye\code\netchathomework\SocketCommon\obj\Debug\net6.0\refint\SocketCommon.dll
 D:\liugangzuoye\code\netchathomework\SocketCommon\obj\Debug\net6.0\SocketCommon.pdb
 D:\liugangzuoye\code\netchathomework\SocketCommon\obj\Debug\net6.0\ref\SocketCommon.dll
+D:\workspace\新建文件夹\git\netchathomework\SocketCommon\bin\Debug\net6.0\SocketCommon.deps.json
+D:\workspace\新建文件夹\git\netchathomework\SocketCommon\bin\Debug\net6.0\SocketCommon.dll
+D:\workspace\新建文件夹\git\netchathomework\SocketCommon\bin\Debug\net6.0\SocketCommon.pdb
+D:\workspace\新建文件夹\git\netchathomework\SocketCommon\obj\Debug\net6.0\SocketCommon.csproj.AssemblyReference.cache
+D:\workspace\新建文件夹\git\netchathomework\SocketCommon\obj\Debug\net6.0\SocketCommon.GeneratedMSBuildEditorConfig.editorconfig
+D:\workspace\新建文件夹\git\netchathomework\SocketCommon\obj\Debug\net6.0\SocketCommon.AssemblyInfoInputs.cache
+D:\workspace\新建文件夹\git\netchathomework\SocketCommon\obj\Debug\net6.0\SocketCommon.AssemblyInfo.cs
+D:\workspace\新建文件夹\git\netchathomework\SocketCommon\obj\Debug\net6.0\SocketCommon.csproj.CoreCompileInputs.cache
+D:\workspace\新建文件夹\git\netchathomework\SocketCommon\obj\Debug\net6.0\SocketCommon.dll
+D:\workspace\新建文件夹\git\netchathomework\SocketCommon\obj\Debug\net6.0\refint\SocketCommon.dll
+D:\workspace\新建文件夹\git\netchathomework\SocketCommon\obj\Debug\net6.0\SocketCommon.pdb
+D:\workspace\新建文件夹\git\netchathomework\SocketCommon\obj\Debug\net6.0\ref\SocketCommon.dll

@@ -1,6 +1,7 @@
 using Microsoft.VisualBasic.ApplicationServices;
 using SocketCommon;
 using System;
+using System.Linq;
 using System.Net.Sockets;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
@@ -41,7 +42,7 @@ namespace MessengerClinet
             clientAccount = account;
             InitializeComponent();
 
-            FriendItem pub_zone = new FriendItem("公共聊天室", "");
+            FriendItem pub_zone = new FriendItem("公共聊天室", "公共聊天室");
             listFriend.Items.Add(pub_zone);
             groupBox1.Controls.Add(pub_zone.rtboxReceive);
             pub_zone.rtboxReceive.Visible = true;
@@ -63,7 +64,7 @@ namespace MessengerClinet
 
             // 私聊消息接收事件
             client.DataPrivateReceive += Client_DataPrivateReceive;
-           
+
             // 群聊事件
             client.DataBroadcastReceive += Client_DataBroadcastReceive;
 
@@ -108,7 +109,7 @@ namespace MessengerClinet
             Invoke(() =>
             {
                 string[] args = context.Split("|");
-                this.findPubFriend().rtboxReceive.AppendText(args[1]+"\r\n");
+                this.findPubFriend().rtboxReceive.AppendText(args[1] + "\r\n");
             });
         }
 
@@ -118,13 +119,13 @@ namespace MessengerClinet
             foreach (var item in this.listFriend.Items)
             {
                 FriendItem fi = (FriendItem)item;
-                if (fi.account == "") {
+                if (fi.account == "")
+                {
                     return fi;
                 }
             }
             throw new Exception("系统错误");
         }
-
         private FriendItem findFriend(string account)
         {
             foreach (var item in this.listFriend.Items)
@@ -137,7 +138,6 @@ namespace MessengerClinet
             }
             return null;
         }
-
         /**
          * 私聊接收消息
          */
@@ -155,6 +155,7 @@ namespace MessengerClinet
 
                     if (this.current_friend.account != tmp.account)
                     {
+                       
 
                         int index = this.listFriend.Items.IndexOf(tmp);
                         tmp.un_read_msg = tmp.un_read_msg + 1;
@@ -239,10 +240,33 @@ namespace MessengerClinet
                     case "02":
                         MessageBox.Show("已经添加过");
                         break;
+                    case "03":
+                        MessageBox.Show("对方未在线");
+                        break;
+                    case "04":
+                        MessageBox.Show("对方未同意");
+                        break;
+                    case "05":
+                        MessageBox.Show("不能添加自己");
+                        break;
                     default:
                         MessageBox.Show("未知错误");
                         break;
                 }
+            });
+        }
+
+        /**
+         * 接受好友请求
+         * **/
+
+        private void Client_DataApplyFriend(object? sender, SocketCommon.ReceiveEventArgs e)
+        {
+            string context = e.Text;
+            // 显示接收到的数据
+            Invoke(() =>
+            {
+                MessageBox.Show(e.Text + "__用户申请加为好友，是否同意"); ;
             });
         }
 
@@ -265,7 +289,7 @@ namespace MessengerClinet
 
                 }
                 string[] name_nick = e.Text.Split("|");
-                if (!temp.Contains(e.Text))
+                if (!temp.Contains(name_nick[0]))
                 {
                     FriendItem pub = new FriendItem(name_nick[0], name_nick[1]);
                     listFriend.Items.Add(pub);
@@ -397,13 +421,14 @@ namespace MessengerClinet
 
             FriendItem fi = (FriendItem)listFriend.SelectedItem;
 
-            if (fi == null || this.current_friend==null)
+            if (fi == null || this.current_friend == null)
             {
                 return;
             }
 
 
-            if(fi.account == this.current_friend.account) {
+            if (fi.account == this.current_friend.account)
+            {
                 return;
             }
 

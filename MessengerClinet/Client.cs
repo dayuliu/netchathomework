@@ -33,6 +33,10 @@ namespace MessengerClinet
         // 私聊接收消息事件
         public event EventHandler<ReceiveEventArgs> DataPrivateReceive = default!;
 
+
+        //接受好友请求
+        public event EventHandler<ReceiveEventArgs> DataApplyFriend = default!;
+
         // 群聊广播事件
         public event EventHandler<ReceiveEventArgs> DataBroadcastReceive = default!;
 
@@ -193,6 +197,11 @@ namespace MessengerClinet
             else if (tt[0] == "08")
             {
                 DataBroadcastReceive(this, new ReceiveEventArgs() { Text = TextFormat });
+            }
+            else if (tt[0] == "15")
+            {
+
+                DataApplyFriend(this, new ReceiveEventArgs() { Text = tt[1] });
             }
 
             else

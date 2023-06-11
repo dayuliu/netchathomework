@@ -41,8 +41,7 @@ namespace MessengerClinet
 
         public override string ToString()
         {
-
-            string res = "昵称:"+ nickname;
+            string res = "昵称:" + nickname;
             if (account != "")
                 res = res + "|" + account;
 

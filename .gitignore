@@ -397,3 +397,7 @@ FodyWeavers.xsd
 # JetBrains Rider
 *.sln.iml
 
+/MessengerServer/obj/Debug/net6.0-windows/MessengerServer.assets.cache
+/SocketCommon/obj/Debug/net6.0/SocketCommon.assets.cache
+/MessengerClinet/obj/Debug/net6.0-windows/MessengerClinet.assets.cache
+/MessengerClinet/obj/Debug/net6.0-windows/MessengerClinet.csproj.AssemblyReference.cache
