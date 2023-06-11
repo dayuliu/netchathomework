@@ -127,8 +127,6 @@ namespace MessengerClinet
             throw new Exception("系统错误");
         }
 
-
-
         /**
          * 私聊接收消息
          */
@@ -139,7 +137,21 @@ namespace MessengerClinet
             Invoke(() =>
             {
                 string[] args = context.Split("|");
-                this.current_friend.rtboxReceive.AppendText(args[1] + args[2] + "\r\n");
+
+                FriendItem tmp = this.findFriend(args[1]); // 找到发送者账号
+                if (tmp != null)
+                {
+
+                    if (this.current_friend.account != tmp.account)
+                    {
+                        tmp.un_read_msg = tmp.un_read_msg + 1;
+
+                        this.listFriend.Refresh();
+
+                    }
+                    tmp.rtboxReceive.AppendText(args[1] + args[2] + "\r\n");
+
+                }
             });
         }
 
@@ -410,6 +422,7 @@ namespace MessengerClinet
 
             this.current_friend = fi;
             this.current_friend.rtboxReceive.Visible = true;
+            this.current_friend.un_read_msg = 0;
 
         }
     }

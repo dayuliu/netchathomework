@@ -9,6 +9,14 @@ namespace MessengerClinet
     internal class FriendItem
     {
         public RichTextBox rtboxReceive;
+
+
+        public string nickname { get; set; }
+        public string account { get; set; }
+
+
+        public int un_read_msg = 0;
+
         public  FriendItem(string nickname,string account) { 
         
             this.nickname = nickname;
@@ -25,17 +33,22 @@ namespace MessengerClinet
             rtboxReceive.ScrollBars = RichTextBoxScrollBars.Vertical;
             rtboxReceive.Size = new Size(456, 296);
             rtboxReceive.TabIndex = 1;
-            rtboxReceive.Text = "dajiahao\n";
+            rtboxReceive.Text = "";
             rtboxReceive.Visible = false;
 
         }    
-        public string nickname { get; set; }
-        public string account { get; set; }
+
 
         public override string ToString()
         {
-      
-            return nickname + "|" + account;
+            string res = "昵称:" + nickname;
+            if (account != "")
+                res = res + "|" + account;
+
+            if (this.un_read_msg > 0)
+                res = res + "|未读消息:" + this.un_read_msg.ToString();
+
+            return res;
         }
     }
 }
