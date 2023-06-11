@@ -27,7 +27,10 @@ namespace MessengerClinet
         /// </summary>
         public event EventHandler<ReceiveEventArgs> DataFriendReceive = default!;
 
-        // 私聊事件
+        // 发送私聊消息反馈事件
+        public event EventHandler<ReceiveEventArgs> DataPrivate = default!;
+
+        // 私聊接收消息事件
         public event EventHandler<ReceiveEventArgs> DataPrivateReceive = default!;
 
         // 群聊广播事件
@@ -172,7 +175,12 @@ namespace MessengerClinet
                     DataFriendReceive(this, new ReceiveEventArgs() { Text = tt[i]+"|"+tt[i+1] });
                 }
             }
-            // 私聊 06|fromAccount+Info|message
+            // 发送私聊反馈 06|fromAccount+Info|message
+            else if (tt[0] == "05")
+            {
+                DataPrivate(this, new ReceiveEventArgs() { Text = tt[1] });
+            }
+            // 私聊接收 06|fromAccount+Info|message
             else if (tt[0] == "06")
             {
                 DataPrivateReceive(this, new ReceiveEventArgs() { Text = TextFormat });
