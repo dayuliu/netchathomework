@@ -58,7 +58,7 @@
             rtboxReceive.ScrollBars = RichTextBoxScrollBars.Vertical;
             rtboxReceive.Size = new Size(355, 252);
             rtboxReceive.TabIndex = 1;
-            rtboxReceive.Text = "";
+            rtboxReceive.Text = "111";
             // 
             // tboxSend
             // 
