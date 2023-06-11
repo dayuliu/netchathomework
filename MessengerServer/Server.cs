@@ -8,6 +8,7 @@ using System.Text;
 using static System.Net.Mime.MediaTypeNames;
 using Microsoft.VisualBasic;
 using System.Globalization;
+using System.Xml.Linq;
 
 namespace MessengerServer
 {
@@ -269,6 +270,12 @@ namespace MessengerServer
                             break;
                         }
 
+                    case "16":
+                        {
+                            returnFriendresult(args, socket);
+                            break;
+                        }
+
                     default:
                         {
                             foreach (var socket_send in Clients)
@@ -319,6 +326,14 @@ namespace MessengerServer
             // 发送数据到其他客户端
 
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="socket"></param>
+        /// <param name="name"></param>
+
+
+
 
         /**
          * 私聊 05|fromAcount|destAccount|message
@@ -344,7 +359,8 @@ namespace MessengerServer
             if (!nicknames.ContainsKey(fromAccount))
             {
                 nickname = fromAccount;
-            } else
+            }
+            else
             {
                 nickname = nicknames[fromAccount];
             }
@@ -356,7 +372,8 @@ namespace MessengerServer
                     // 添加发送者的地址和端口号
                     byte[] sendBuffer = Encoding.Default.GetBytes(string.Format("06|{0}|[{1}-{2}]:{3} ", fromAccount, nickname, socket.RemoteEndPoint!.ToString()!, msg));
                     dest_socket.Send(sendBuffer, sendBuffer.Length, SocketFlags.None);
-                } else
+                }
+                else
                 {
                     return "05|2";
                 }
@@ -448,7 +465,7 @@ namespace MessengerServer
             {
                 return "10|00";
             }
-           //当前用户的信息
+            //当前用户的信息
             var currentUserPir = sockets.FirstOrDefault(kv => kv.Value == socketWorker);
             //查看是否在线
             var userSocket = sockets.FirstOrDefault(kv => kv.Key == args[1]);
@@ -457,7 +474,8 @@ namespace MessengerServer
                 return "10|03";
             }
             //不能添加自己
-            if (args[1] == currentUserPir.Key) {
+            if (args[1] == currentUserPir.Key)
+            {
                 return "10|05";
             }
 
@@ -470,17 +488,13 @@ namespace MessengerServer
             }
 
             //增加申请模块
-            
-            
+            applyFriend(userSocket.Value, currentUserPir.Key);
+
             //
 
-            currentFriends.Add(args[1]);
-            friends[currentUserId] = currentFriends;
 
-            // notify user
-            SendClientFriendList(socketWorker);
 
-            return "10|01";
+            return "10|04";
         }
 
 
@@ -518,7 +532,7 @@ namespace MessengerServer
                     lock (friends)
                     {
                         var temp = sockets.FirstOrDefault(x => x.Value == socket);
-                        if (temp.Key is not null )
+                        if (temp.Key is not null)
                         {
                             flist = friends[temp.Key];
                         }
@@ -531,7 +545,7 @@ namespace MessengerServer
                     foreach (string clientname in flist)
                     {
                         string nname = nicknames[clientname];
-                        sendClintFriendlist += nname + "|" + clientname  + "|";
+                        sendClintFriendlist += nname + "|" + clientname + "|";
                     }
                     sendClintFriendlist = sendClintFriendlist.Substring(0, sendClintFriendlist.Length - 1);
                     byte[] buffer = Encoding.Default.GetBytes(sendClintFriendlist);
@@ -547,13 +561,61 @@ namespace MessengerServer
             }
         }
 
-        private void isaddFriend(Socket socket,string name) {
-            byte[] buffer = Encoding.Default.GetBytes("15|"+name);
+        private void applyFriend(Socket socket, string name)
+        {
+            byte[] buffer = Encoding.Default.GetBytes("15|" + name);
             // 进行发送
             socket.Send(buffer, 0, buffer.Length, SocketFlags.None);
-     
+        }
+        //string message = "16|0" + e.Text;
+        /// <summary>
+        /// 发送请求，服务器向客户端发送好友请求结果
+        /// </summary>
+        /// <param name="arg"></param>
+        /// <param name="socket"></param>
+        private void returnFriendresult(string[] arg, Socket socket)
+        {
+            //申请者
+            var apply = sockets.FirstOrDefault(x => x.Key == arg[2]);
+            Socket socket_1 = apply.Value;
+
+            //响应者
+            var replayer = sockets.FirstOrDefault(x => x.Value == socket);
+            byte[] buffer = Encoding.Default.GetBytes("17|" + arg[1] + "|" + replayer.Key);
+            socket_1.Send(buffer, buffer.Length, SocketFlags.None);
+
+            if (arg[1] == "1")
+            {
+                //申请者添加
+                var currentUserId = apply.Key;
+                var currentFriends = friends[currentUserId];
+                if (!currentFriends.Contains(replayer.Key))
+                {
+                    currentFriends.Add(replayer.Key);
+                    friends[currentUserId] = currentFriends;
+                    // notify user
+                    SendClientFriendList(apply.Value);
+                }
+               
+
+                //响应者添加
+                var replayername = replayer.Key;
+                var replayerFriends = friends[replayername];
+                if (!replayerFriends.Contains(apply.Key))
+                {
+                    replayerFriends.Add(apply.Key);
+                    friends[replayername] = replayerFriends;
+
+                    // notify user
+                    SendClientFriendList(replayer.Value);
+                }
+                
+            }
+
+
 
         }
+
 
     }
 }

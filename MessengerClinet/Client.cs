@@ -37,6 +37,9 @@ namespace MessengerClinet
         //接受好友请求
         public event EventHandler<ReceiveEventArgs> DataApplyFriend = default!;
 
+        //好友请求结果
+        public event EventHandler<ReceiveEventArgs> DataapplyFriendoutput = default!;
+
         // 群聊广播事件
         public event EventHandler<ReceiveEventArgs> DataBroadcastReceive = default!;
 
@@ -203,7 +206,11 @@ namespace MessengerClinet
 
                 DataApplyFriend(this, new ReceiveEventArgs() { Text = tt[1] });
             }
+            else if (tt[0] == "17")
+            {
 
+                DataapplyFriendoutput(this, new ReceiveEventArgs() { Text = TextFormat });
+            }
             else
             {
                 // 触发数据接收事件

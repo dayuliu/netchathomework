@@ -1,11 +1,14 @@
+using Microsoft.VisualBasic;
 using Microsoft.VisualBasic.ApplicationServices;
 using SocketCommon;
 using System;
 using System.Linq;
 using System.Net.Sockets;
+using System.Reflection.Emit;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks.Dataflow;
 using System.Windows.Forms;
 
 namespace MessengerClinet
@@ -68,6 +71,11 @@ namespace MessengerClinet
             // 群聊事件
             client.DataBroadcastReceive += Client_DataBroadcastReceive;
 
+            //注册添加好友事件
+            client.DataApplyFriend += Client_DataApplyFriend;
+
+            // 好友结果返回
+            client.DataapplyFriendoutput += Client_DataapplyFriendoutput;
 
             client.Send("13|");
 
@@ -205,22 +213,20 @@ namespace MessengerClinet
             if (e.Connected)
             {
                 // 更新状态栏显示及按钮状态
-                Invoke(() =>
-                {
+               
                     tsslStatus.Text = "服务器已连接";
                     tspbProgress.Visible = false;
                     btnSend.Enabled = true;
-                });
+               
             }
             else
             {
                 // 更新状态栏显示及按钮状态
-                Invoke(() =>
-                {
+                
                     tsslStatus.Text = "正在连接服务器...";
                     tspbProgress.Visible = true;
                     btnSend.Enabled = false;
-                });
+                
             }
         }
 
@@ -244,7 +250,7 @@ namespace MessengerClinet
                         MessageBox.Show("对方未在线");
                         break;
                     case "04":
-                        MessageBox.Show("对方未同意");
+                        MessageBox.Show("已经发送好友请求");
                         break;
                     case "05":
                         MessageBox.Show("不能添加自己");
@@ -266,9 +272,42 @@ namespace MessengerClinet
             // 显示接收到的数据
             Invoke(() =>
             {
-                MessageBox.Show(e.Text + "__用户申请加为好友，是否同意"); ;
+                //MessageBox.Show("用户名或者密码不能为空", "登录提示", MessageBoxButtons.OKCancel);
+                var result = MessageBox.Show(e.Text + "__用户申请加为好友，是否同意", "好友请求", MessageBoxButtons.OKCancel);
+                if (result == DialogResult.OK)//如果对话框的返回值是YES（按"Y"按钮）
+                {
+                    string message = "16|1|"+ e.Text;
+                    client.Send(message);
+                }
+                if (result == DialogResult.Cancel)//如果对话框的返回值是NO（按"N"按钮）
+                {
+                    string message = "16|0"+ e.Text;
+                    client.Send(message);
+                }
+
             });
         }
+        private void Client_DataapplyFriendoutput(object? sender, SocketCommon.ReceiveEventArgs e)
+        {
+            string context = e.Text;
+            // 显示接收到的数据
+            Invoke(() =>
+            {
+                //MessageBox.Show("用户名或者密码不能为空", "登录提示", MessageBoxButtons.OKCancel);
+                string[] flags = context.Split("|");
+                if (flags[1] == "1")
+                {
+                    MessageBox.Show("添加" + flags[2] + "用户好友成功", "好友请求");
+                }
+                else if (flags[1] == "0") {
+                    MessageBox.Show( flags[2] + "拒绝了您的好友请求", "好友请求");
+                }
+
+
+
+            });
+        }
+        
 
 
         /// <summary>
