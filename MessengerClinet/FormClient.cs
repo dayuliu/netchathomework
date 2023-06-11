@@ -1,6 +1,7 @@
 using Microsoft.VisualBasic.ApplicationServices;
 using SocketCommon;
 using System;
+using System.Linq;
 using System.Net.Sockets;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
@@ -270,7 +271,7 @@ namespace MessengerClinet
 
                 }
                 string[] name_nick = e.Text.Split("|");
-                if (!temp.Contains(e.Text))
+                if (!temp.Contains(name_nick[0]))
                 {
                     FriendItem pub = new FriendItem(name_nick[0], name_nick[1]);
                     listFriend.Items.Add(pub);
