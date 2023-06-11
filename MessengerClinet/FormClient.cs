@@ -158,8 +158,9 @@ namespace MessengerClinet
                         this.listFriend.Items[index] = tmp;
 
                     }
-                    tmp.rtboxReceive.AppendText(args[1] + "\r\n");
 
+                    string msg = string.Join("|", args[1..args.Length]);
+                    tmp.rtboxReceive.AppendText(msg + "\r\n");
                 }
 
 
@@ -202,6 +203,8 @@ namespace MessengerClinet
             {
                 string[] args = context.Split("|");
 
+                string msg = string.Join("|", args[2..args.Length]);
+
                 FriendItem tmp = this.findFriend(args[1]); // 找到发送者账号
                 if (tmp != null)
                 {
@@ -214,7 +217,7 @@ namespace MessengerClinet
                         this.listFriend.Items[index] = tmp;
 
                     }
-                    tmp.rtboxReceive.AppendText(args[1] + args[2] + "\r\n");
+                    tmp.rtboxReceive.AppendText(args[1] + msg + "\r\n");
 
                 }
             });

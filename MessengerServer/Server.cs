@@ -303,8 +303,9 @@ namespace MessengerServer
                 }
 
             }
-            catch  //客户端已下线
+            catch(Exception e)  //客户端已下线
             {
+                Console.WriteLine(e.Message);
                 string account = null;
                 foreach (KeyValuePair<string, Socket> item in sockets)
                 {
@@ -349,7 +350,7 @@ namespace MessengerServer
             string fromAccount = args[1];
             // 目标账号 
             string destAccount = args[2];
-            string msg = args[3];
+            string msg = string.Join("|", args[3..args.Length]);
 
             // 目标账号不存在则返回 05|1
             if (!nicknames.ContainsKey(destAccount))
@@ -394,7 +395,7 @@ namespace MessengerServer
         private string on_broadcast(string[] args, Socket socket)
         {
             string fromAccount = args[1];
-            string msg = args[2];
+            string msg = string.Join("|", args[2..args.Length]);
             string nickname = fromAccount;
             if (nicknames.ContainsKey(fromAccount))
             {
