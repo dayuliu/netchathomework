@@ -164,8 +164,7 @@ namespace MessengerClinet
             Invoke(() =>
             {
                 string[] args = context.Split("|");
-                this.current_friend.rtboxReceive.AppendText(args[1]);
-                this.rtboxReceive = this.current_friend.rtboxReceive;
+                this.current_friend.rtboxReceive.AppendText(args[1]+"\r\n");
             });
         }
 
@@ -179,7 +178,7 @@ namespace MessengerClinet
             Invoke(() =>
             {
                 string[] args = context.Split("|");
-                rtboxReceive.AppendText(args[1] + args[2]);
+                this.current_friend.rtboxReceive.AppendText(args[1] + args[2]+"\r\n");
             });
         }
 
@@ -249,14 +248,16 @@ namespace MessengerClinet
                 List<string> temp = new List<string>();
                 foreach (var item in listFriend.Items)
                 {
-                    string[] sitem = item.ToString().Split("|");  
+                    string[] sitem = item.ToString().Split("|");
                     temp.Add(sitem[0]);
 
                 }
                 string[] name_nick = e.Text.Split("|");
                 if (!temp.Contains(e.Text))
                 {
-                    listFriend.Items.Add(name_nick[0]+"|"+ name_nick[1]);
+                    FriendItem pub = new FriendItem(name_nick[0], name_nick[1]);
+                    listFriend.Items.Add(pub);
+                    groupBox1.Controls.Add(pub.rtboxReceive);
                 }
             });
         }
